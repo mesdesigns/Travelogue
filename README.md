@@ -1,14 +1,10 @@
 # Travelogue
 
-A single-file travel planner and journal. Collect things to do, spread them across your days, stamp what you actually did, and turn each trip into a keepable booklet.
-
-**Live site:** https://YOUR-USERNAME.github.io/Travelogue/
-
-No build step, no backend, no account. It's one `index.html` you can open in any modern browser.
+A cute and fun travel planner and journal. Throw things you want to do in a pool, spread them across your days, stamp which places you went to and what you did and turn each trip into a little booklet.
 
 ## Features
 
-- **Multiple trips**, each with its own colour theme and cover image, plus a countdown to the start date.
+- **Multiple trips**, each with its own customizable theme and a countdown to the start date.
 - **Activity pool**: a running list of museums, restaurants, walks and anything else you might do, with notes for tickets, opening hours or who recommended it. Places link out to Google Maps.
 - **Day-by-day plan**: add items from the pool to specific days and keep a separate to-do list per trip.
 - **Stamp what you did**: mark places as visited, log unplanned stops, rate how it went, pick favourites and jot down what you ate or what surprised you.
@@ -40,14 +36,6 @@ python3 -m http.server 8000
 # then visit http://localhost:8000
 ```
 
-## Deploy to GitHub Pages
 
-1. Push `index.html` to the `main` branch of your repository.
-2. Go to **Settings → Pages**.
-3. Set **Source** to *Deploy from a branch*, choose `main` and `/ (root)`, then save.
-4. After a minute or two the site is live at `https://YOUR-USERNAME.github.io/REPO-NAME/`.
-
-## Tech notes
-
-- Plain HTML, CSS and JavaScript in one file, with no frameworks or dependencies to install.
-- Fonts (Fraunces, Nunito and Barlow Condensed) load from Google Fonts. The app still works without them, using fallback fonts.
+- Plain HTML, CSS and JavaScript
+- Fonts (Fraunces, Nunito and Barlow Condensed) load from Google Fonts
