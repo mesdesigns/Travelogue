@@ -25,7 +25,7 @@
   --accent:#57534e; --accent-ink:#57534e; --on-accent:#ffffff; --accent-soft:#e4e0db;
   --bg:#efebe5; --bg-2:#e3ddd5; --line:#d6cec4; --card:#fdfcfb; --field:#fefefd; --sign-frame:#403b36;
   --stamp:#57534e; --stamp-soft:#e4e0db;
-  --ink:#2b241d; --muted:#5a5249; --danger:#b42318; --danger-soft:#fbe6e3;
+  --ink:#2b241d; --muted:#6f665c; --danger:#b42318; --danger-soft:#fbe6e3;
   --shadow-sm:0 1px 2px rgba(40,30,20,.06), 0 2px 10px rgba(40,30,20,.06);
   --shadow-md:0 2px 4px rgba(40,30,20,.06), 0 8px 24px rgba(40,30,20,.11);
   --shadow-lg:0 4px 10px rgba(30,20,10,.08), 0 18px 48px rgba(30,20,10,.2);
@@ -63,7 +63,7 @@ img{max-width:100%}
 .app{position:relative;height:100%;max-width:520px;margin:0 auto;display:flex;flex-direction:column;overflow:hidden;overflow:clip;
   background:radial-gradient(circle at 1px 1px, color-mix(in srgb,var(--accent) 12%,transparent) 1.1px, transparent 1.6px) 0 0/22px 22px, var(--bg);transition:background-color .4s}
 @media (min-width:560px){ .app{box-shadow:0 0 0 1px rgba(40,30,20,.08), 0 20px 60px rgba(30,20,10,.18)} }
-.appbar{flex:none;display:flex;align-items:center;gap:8px;min-height:84px;padding:20px calc(var(--edge) + 2px) 8px var(--gutter)}
+.appbar{flex:none;display:flex;align-items:center;gap:8px;min-height:72px;padding:10px calc(var(--edge) + 2px) 8px var(--gutter)}
 .appbar.in-trip{padding-left:calc(var(--edge) - 2px)}
 .appbar-titles{flex:1;min-width:0}
 .eyebrow{display:block;min-height:17px;font-size:12.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -144,7 +144,7 @@ img{max-width:100%}
 /* the destination sign (street-sign style label in the trip's colour) */
 .sign{flex:none;display:flex;flex-direction:column;align-items:center;max-width:150px;padding:8px 15px 10px;border-radius:10px;background:var(--accent);color:var(--on-accent);line-height:1;transform:rotate(-3deg);
   box-shadow:inset 0 0 0 3px var(--accent), inset 0 0 0 4.5px color-mix(in srgb,var(--on-accent) 85%,transparent), 0 0 0 3px var(--sign-frame), 2px 5px 12px rgba(30,20,10,.25)}
-.sign-sub{margin-bottom:3px;font:600 12.5px/1.1 var(--f-sign);letter-spacing:.03em;white-space:nowrap}
+.sign-sub{margin-bottom:3px;font:600 12.5px/1.1 var(--f-sign);letter-spacing:.03em;opacity:.9;white-space:nowrap}
 .sign-title{max-width:120px;overflow:hidden;text-overflow:ellipsis;font:700 28px/1 var(--f-sign);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
 
 /* ---------- cards ---------- */
@@ -210,8 +210,10 @@ body.dragging,body.dragging *{cursor:grabbing!important;-webkit-user-select:none
 @keyframes drop{0%{transform:translateY(-60px) scale(1.25) rotate(-8deg);opacity:0}100%{transform:none;opacity:1}}
 
 /* ---------- today ---------- */
-.hero{position:relative;display:flex;align-items:center;gap:20px;width:calc(100% - 2 * var(--edge));margin:4px var(--edge) 0;padding:22px 20px;border:0;border-radius:26px;background:var(--card);color:var(--ink);box-shadow:var(--shadow-sm);text-align:left;transition:transform .15s var(--ease),box-shadow .2s}
+.hero{position:relative;display:flex;align-items:center;gap:20px;width:calc(100% - 2 * var(--edge));margin:4px var(--edge) 0;padding:22px 52px 22px 20px;border:0;border-radius:26px;background:var(--card);color:var(--ink);box-shadow:var(--shadow-sm);text-align:left;transition:transform .15s var(--ease),box-shadow .2s}
 .hero:active{transform:scale(.985)}
+.hero-gear{position:absolute;top:12px;right:12px;display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--accent-soft);color:var(--accent-ink)}
+.hero-gear svg{width:18px;height:18px;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .hero-text{min-width:0}
 .count{display:block;margin:0;font:600 26px/1.12 var(--f-head);color:var(--accent-ink)}
 .hero-sub{display:block;margin-top:4px;font-size:14px;color:var(--muted)}
@@ -243,7 +245,6 @@ body.dragging,body.dragging *{cursor:grabbing!important;-webkit-user-select:none
 .daychip{display:flex;flex-direction:column;align-items:center;justify-content:center;width:62px;height:72px;border:0;border-radius:20px;background:var(--card);color:var(--ink);box-shadow:var(--shadow-sm);line-height:1;transition:transform .18s var(--ease),background-color .2s,color .2s,box-shadow .2s}
 .daychip.pooltk{width:68px;background:var(--accent-soft);color:var(--accent-ink);box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--accent) 35%,transparent)}
 .daychip .dw{font:800 11.5px/1 var(--f-body);opacity:.75}
-.daychip.pooltk .dw{opacity:1}
 .daychip .dn{margin-top:6px;font:600 22px/1 var(--f-head)}
 .daychip .dots{display:flex;gap:3px;height:5px;margin-top:6px}
 .daychip .dots i{width:5px;height:5px;border-radius:50%;background:color-mix(in srgb,var(--accent) 55%,transparent)}
@@ -289,12 +290,12 @@ body.dragging,body.dragging *{cursor:grabbing!important;-webkit-user-select:none
 .jtools{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
 .jday{padding:20px var(--edge) 2px}
 .jday-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 4px 10px}
-.jday h2{margin:0;font:600 20px/1.2 var(--f-head)}
+.jday h3{margin:0;font:600 20px/1.2 var(--f-head)}
 .jday-head small{font-size:13px;color:var(--muted)}
-.postmark{position:relative;flex:none;display:grid;place-items:center;align-content:center;width:56px;height:56px;border-radius:50%;border:2px solid var(--stamp);box-shadow:inset 0 0 0 3px var(--bg), inset 0 0 0 4.5px var(--stamp);color:var(--stamp);transform:rotate(12deg);line-height:1;font-weight:800;transition:opacity .3s,filter .3s}
+.postmark{flex:none;display:grid;place-items:center;align-content:center;width:52px;height:52px;border-radius:50%;border:2px solid var(--stamp);box-shadow:inset 0 0 0 3px var(--bg), inset 0 0 0 4.5px var(--stamp);color:var(--stamp);transform:rotate(12deg);line-height:1;font-weight:800;transition:opacity .3s,filter .3s}
 .postmark.empty{opacity:.35;filter:grayscale(1)}
-.postmark b{font-size:17px;white-space:nowrap}
-.postmark i{margin-top:1px;font-style:normal;font-size:9px;letter-spacing:.08em;white-space:nowrap}
+.postmark b{font-size:17px}
+.postmark i{font-style:normal;font-size:9px;letter-spacing:.1em}
 .jnudge{margin:-2px 4px 10px;font-size:14px;color:var(--muted)}
 .jrows{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
 .jrow{position:relative;border-radius:18px;overflow:hidden;background:var(--bg-2)}
@@ -495,7 +496,7 @@ html.kb-open .panel{padding-bottom:0;max-height:calc(100% - 8px)}
 
 /* ---------- responsive ---------- */
 @media (max-width:360px){
-  .hero{flex-direction:column;align-items:flex-start;gap:14px;padding:20px 18px}
+  .hero{flex-direction:column;align-items:flex-start;gap:14px;padding:20px 52px 20px 18px}
   .count{font-size:23px}
   .tripcard{gap:14px;padding:16px 14px 16px 18px}
   .tripcard .sign-title{max-width:78px;font-size:19px}
@@ -528,27 +529,24 @@ html.kb-open .panel{padding-bottom:0;max-height:calc(100% - 8px)}
 }
 @media (prefers-reduced-motion: reduce){ *{transition:none!important;animation:none!important} }
 
-/* ---------- travel together ---------- */
-.group-label.spaced{margin-top:26px}
-.tour-card+.tour-card{margin-top:10px}
-.sync-card .btn svg{width:17px;height:17px}
-.menu-row .badge{flex:none;min-width:26px;height:26px;padding:0 8px;border-radius:999px;display:grid;place-items:center;background:var(--accent);color:var(--on-accent);font-weight:800;font-size:13px}
-.row-actions.center{justify-content:center;margin-top:8px}
-.from{display:grid;gap:2px;margin:0 0 16px}
-.from b{font:600 20px/1.2 var(--f-head)}
-.from small{font-size:13.5px;color:var(--muted)}
-.changelist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
-.changelist li{display:flex;align-items:center;gap:12px;min-height:56px;padding:10px 14px;border-radius:16px;background:var(--bg)}
-.changelist .tdot{flex:none;width:12px;height:12px;border-radius:4px;background:var(--tc);box-shadow:0 0 0 2px var(--card)}
-.changelist span{min-width:0;display:grid;gap:2px}
-.changelist b{font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.changelist small{font-size:13.5px;color:var(--muted);overflow-wrap:anywhere}
-.done-mark{display:grid;place-items:center;width:64px;height:64px;margin:4px auto 10px;border-radius:50%;border:3px solid var(--stamp);background:var(--stamp-soft);color:var(--stamp);transform:rotate(-10deg);animation:stampin .32s var(--ease)}
-@keyframes stampin{from{transform:rotate(-10deg) scale(1.35);opacity:0}to{transform:rotate(-10deg);opacity:1}}
-.done-mark svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
-.done-title{margin:0;text-align:center;font:600 22px/1.2 var(--f-head)}
-.done-title:focus{outline:none}
-.done-title:focus-visible{outline:3px solid var(--accent-ink);outline-offset:4px;border-radius:6px}
+/* ---------- Google Maps import ---------- */
+.pool-tools{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.steps{margin:4px 0 16px;padding-left:22px;font-size:15px}
+.steps li{margin:6px 0}
+.steps a{color:var(--accent-ink);font-weight:800}
+.paste{min-height:120px;resize:vertical}
+.paste:focus-visible{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.box .field{margin-bottom:4px}
+.glist{list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:6px}
+.gpick{display:flex;align-items:center;gap:12px;width:100%;min-height:60px;padding:8px 14px 8px 10px;border:0;border-radius:16px;background:var(--bg);text-align:left;transition:opacity .15s,background-color .15s}
+.gpick[aria-checked="false"]{opacity:.62}
+.gbox{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:10px;border:2px solid var(--line);background:var(--card);transition:background-color .15s,border-color .15s}
+.gbox svg{width:16px;height:16px;fill:none;stroke:transparent;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+.gpick[aria-checked="true"] .gbox{background:var(--accent);border-color:var(--accent)}
+.gpick[aria-checked="true"] .gbox svg{stroke:var(--on-accent)}
+.gtext{min-width:0}
+.gtext b{display:block;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gtext small{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 </style>
 </head>
@@ -562,18 +560,18 @@ html.kb-open .panel{padding-bottom:0;max-height:calc(100% - 8px)}
   </header>
   <main class="stage" id="stage" aria-labelledby="title">
     <section class="screen" id="s-home"><p class="loading" role="status">Loading your trips…</p></section>
-    <section class="screen" id="s-today" role="tabpanel" aria-labelledby="tab-today" hidden></section>
-    <section class="screen" id="s-plan" role="tabpanel" aria-labelledby="tab-plan" hidden></section>
-    <section class="screen" id="s-journal" role="tabpanel" aria-labelledby="tab-journal" hidden></section>
+    <section class="screen" id="s-today" hidden></section>
+    <section class="screen" id="s-plan" hidden></section>
+    <section class="screen" id="s-journal" hidden></section>
   </main>
   <div class="booklet" id="booklet" hidden role="dialog" aria-modal="true" aria-label="Travel booklet"></div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <nav aria-label="Trip sections"><div class="tabbar away" id="tabbar" role="tablist" aria-label="Trip sections">
+  <nav class="tabbar away" id="tabbar" role="tablist" aria-label="Sections">
     <span class="tab-ind" id="tabInd" aria-hidden="true"></span>
-    <button type="button" role="tab" id="tab-today" aria-controls="s-today" data-tab="today" aria-selected="false" tabindex="-1"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/></svg></span>Today</button>
-    <button type="button" role="tab" id="tab-plan" aria-controls="s-plan" data-tab="plan" aria-selected="false" tabindex="-1"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 2.5v4M16 2.5v4"/></svg></span>Plan</button>
-    <button type="button" role="tab" id="tab-journal" aria-controls="s-journal" data-tab="journal" aria-selected="false" tabindex="-1"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19v-3M9 7.5h6M9 11h4"/></svg></span>Journal</button>
-  </div></nav>
+    <button type="button" role="tab" data-tab="today" aria-selected="false"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/></svg></span>Today</button>
+    <button type="button" role="tab" data-tab="plan" aria-selected="false"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 2.5v4M16 2.5v4"/></svg></span>Plan</button>
+    <button type="button" role="tab" data-tab="journal" aria-selected="false"><span class="ico"><svg viewBox="0 0 24 24"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19v-3M9 7.5h6M9 11h4"/></svg></span>Journal</button>
+  </nav>
 </div>
 <dialog class="layer" id="sheet" aria-labelledby="sheetTitle"><div class="panel" id="panel"></div></dialog>
 <script>
@@ -620,8 +618,6 @@ const ICON = {
   trash: svgi('<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>'),
   download: svgi('<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>'),
   upload: svgi('<path d="M12 20V9M7 14l5-5 5 5M5 4h14"/>'),
-  share: svgi('<path d="M12 3v12M7.5 7.5L12 3l4.5 4.5"/><path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7"/>'),
-  receive: svgi('<path d="M12 3v12M7.5 10.5L12 15l4.5-4.5"/><path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7"/>'),
   help: svgi('<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5V14M12 17.5v.01"/>'),
   map: svgi('<path d="M9 4L3 6.5v13.5l6-2.5 6 2.5 6-2.5V4l-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/>'),
   pool: svgi('<path d="M4 8h16v12H4z"/><path d="M8 8V5h8v3"/>'),
@@ -631,6 +627,7 @@ const ICON = {
   minus: svgi('<path d="M5 12h14"/>'),
   shape: svgi('<circle cx="9" cy="9" r="5"/><rect x="11" y="11" width="9" height="9" rx="2"/>'),
   motion: svgi('<path d="M4 12h3l3-7 4 14 3-7h3"/>'),
+  pin: svgi('<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>'),
   stamp: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>'
 };
 
@@ -655,9 +652,6 @@ function palette(color){
   // text in the accent colour must stay readable on the darkest tinted background
   let ink = c; for (let i = 0; i < 30 && (contrast(ink, p.bg2) < 4.6 || contrast(ink, p.soft) < 4.5); i++) ink = mix(ink, dark, .1);
   p.ink = ink;
-  // secondary text must stay readable on the darkest tinted surface, whatever colour the trip uses
-  let muted = '#5a5249'; for (let i = 0; i < 30 && contrast(muted, p.bg2) < 4.6; i++) muted = mix(muted, dark, .1);
-  p.muted = muted;
   p.on = contrast(c, '#ffffff') >= 4.5 ? '#ffffff' : contrast(c, dark) >= contrast(c, '#ffffff') ? dark : '#ffffff';
   // stamps use the accent; if the accent is very light, use its readable ink instead
   p.stamp = contrast(c, p.card) >= 3 ? c : ink;
@@ -665,7 +659,7 @@ function palette(color){
   paletteCache.set(c, p);
   return p;
 }
-const VARS = p => ({ '--accent': p.accent, '--accent-ink': p.ink, '--on-accent': p.on, '--accent-soft': p.soft, '--bg': p.bg, '--bg-2': p.bg2, '--line': p.line, '--card': p.card, '--field': p.field, '--sign-frame': p.frame, '--stamp': p.stamp, '--stamp-soft': p.stampSoft, '--muted': p.muted });
+const VARS = p => ({ '--accent': p.accent, '--accent-ink': p.ink, '--on-accent': p.on, '--accent-soft': p.soft, '--bg': p.bg, '--bg-2': p.bg2, '--line': p.line, '--card': p.card, '--field': p.field, '--sign-frame': p.frame, '--stamp': p.stamp, '--stamp-soft': p.stampSoft });
 function applyTheme(color){
   const v = VARS(palette(color)), r = document.documentElement.style;
   for (const k in v) r.setProperty(k, v[k]);
@@ -683,7 +677,6 @@ const slotRank = s => s === 'morning' ? 0 : s === 'afternoon' ? 1 : s === 'eveni
 const FEEL = { loved:'Loved it', fine:'It was fine', meh:'Not for us' };
 const AGAIN = { yes:'Yes, definitely', maybe:'Maybe', no:'Once was enough' };
 const MAX_DAYS = 60, MAX_TRIPS = 60, MAX_ITEMS = 400, MAX_STICKERS = 12;
-const KEEP_STICKERS = MAX_STICKERS * 2;   // covers can briefly hold more when two people decorated the same one; no photo is dropped
 /* guess a type from the name so food places can be picked as a favourite later */
 const KIND_WORDS = [
   ['food', /\b(food|eat|eats|lunch|dinner|breakfast|brunch|supper|cafe|coffee|espresso|tea|bakery|boulangerie|patisserie|pastry|pastries|croissant|macaron|crepe|crepes|gelato|ice cream|dessert|chocolate|cheese|wine|beer|bar|pub|bistro|brasserie|restaurant|trattoria|osteria|taverna|tapas|pizza|pizzeria|pasta|sushi|ramen|noodle|noodles|dumpling|taco|tacos|burger|bbq|grill|steak|seafood|oyster|market|food hall|street food|tasting|nata|bagel|deli|diner|brewery|cocktail|winery|vineyard)\b/],
@@ -758,7 +751,7 @@ function normTrip(d, fallbackId){
   t.places.forEach(p => { if (p.day != null && p.day >= t.days) p.day = null; });
   t.todos = (Array.isArray(d.todos) ? d.todos : []).filter(x => x && typeof x === 'object' && str(x.text, 140))
     .map(x => ({ id: validId(x.id) ? x.id : uid('t'), text: str(x.text, 140), done: !!x.done })).slice(0, 100);
-  t.stickers = (Array.isArray(d.stickers) ? d.stickers : []).map(normSticker).filter(Boolean).slice(0, KEEP_STICKERS);
+  t.stickers = (Array.isArray(d.stickers) ? d.stickers : []).map(normSticker).filter(Boolean).slice(0, MAX_STICKERS);
   if (d.concluded && typeof d.concluded === 'object') t.concluded = { at: typeof d.concluded.at === 'string' ? d.concluded.at.slice(0, 30) : new Date().toISOString() };
   return t;
 }
@@ -876,9 +869,7 @@ function setStatus(text, kind){
 }
 const savedText = () => store.mode === 'db' ? 'Saved' : 'Saved on this device';
 function writeLocal(){
-  stampChanges();
-  // the sync record is saved in the same write as the trips, so the two can never disagree
-  const json = JSON.stringify(sync.meta ? { ...state, sync: sync.meta } : state);
+  const json = JSON.stringify(state);
   try {
     const prev = localStorage.getItem(KEY);
     if (prev && prev !== json) localStorage.setItem(PREV_KEY, prev);   // one step of history to recover from
@@ -923,13 +914,12 @@ window.addEventListener('pagehide', () => { if (store.mode === 'local') writeLoc
 // keep several open tabs in step
 window.addEventListener('storage', e => {
   if (store.mode !== 'local' || e.key !== KEY || !e.newValue) return;
-  // another tab saved: this tab's undo snapshots predate that change, so restoring one would erase it
-  try { const raw = JSON.parse(e.newValue); state = normState(raw); initSync(raw.sync); history.length = 0; renderAll({ transition: 'none' }); } catch (err) {}
+  try { state = normState(JSON.parse(e.newValue)); renderAll({ transition: 'none' }); } catch (err) {}
 });
 
 /* ---------- undo: every change is recorded ---------- */
 const history = [];
-function pushHistory(label, snap, meta){ history.push({ label, snap, meta: meta || null }); if (history.length > 50) history.shift(); }
+function pushHistory(label, snap){ history.push({ label, snap }); if (history.length > 50) history.shift(); }
 function mutate(fn, label = 'the last change', opts = {}){
   if (ui.readOnly){ toast(VIEW_ONLY); return false; }
   const snap = JSON.stringify(state);
@@ -943,8 +933,6 @@ function undo(){
   if (ui.readOnly){ toast(VIEW_ONLY); return; }
   const h = history.pop(); if (!h){ toast('Nothing left to undo'); return; }
   state = normState(JSON.parse(h.snap));
-  // undoing a merge, a wipe or a replace forgets it entirely; undoing an edit is itself a new edit
-  if (h.meta) restoreSyncMeta(h.meta);
   closeBooklet(true);
   save(); renderAll({ transition: 'none' });
   toast(`Undid ${h.label}`);
@@ -952,17 +940,15 @@ function undo(){
 
 function readLocal(){
   for (const k of [KEY, PREV_KEY]){
-    try { const raw = localStorage.getItem(k); if (!raw) continue; const o = JSON.parse(raw), s = normState(o); return { s, meta: o && o.sync, recovered: k === PREV_KEY }; } catch (e) {}
+    try { const raw = localStorage.getItem(k); if (!raw) continue; const s = normState(JSON.parse(raw)); return { s, recovered: k === PREV_KEY }; } catch (e) {}
   }
-  return { s: normState(null), meta: null, recovered: false };
+  return { s: normState(null), recovered: false };
 }
 function startLocal(){
   store.mode = 'local';
-  const { s, meta, recovered } = readLocal();
+  const { s, recovered } = readLocal();
   state = s;
-  initSync(meta);
   onLoaded();
-  checkInbox();
   if (recovered) toast('Your saved data was damaged, so the previous copy was restored.');
   try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {}); } catch (e) {}
 }
@@ -1061,391 +1047,6 @@ function deleteTrip(id){
 }
 
 /* ============================================================
-   Travel Log — travelling together without a server
-   Every phone keeps a timestamp for each detail it changes (a trip's
-   title, a place's note, a sticker's position…) and a marker for
-   everything it deletes. Two people swap a file in any chat; bringing
-   it in merges detail by detail: the newest change of each detail wins,
-   an edit beats an older delete, and both phones end up identical.
-   ============================================================ */
-
-/* ---------- pure merge core (no DOM; tests/test_merge.js loads this part) ---------- */
-/*@pure-start*/
-const COLL = new Set(['trips', 'places', 'todos', 'stickers']);   // arrays of objects with ids
-const OBJ = Object.freeze({ object: true });                         // "an object lives at this path"
-const STAMP_RE = /^[0-9a-z]{13}$/, DEV_RE = /^[0-9a-z]{4}$/;
-const PATH_RE = /^trips(#|\/[\w-]{1,40}(\/[\w-]{1,40}(#|\/[\w-]{1,40})*)?)$/;
-const stampTime = s => parseInt(String(s).slice(0, 9), 36) || 0;
-const sameVal = (a, b) => a === b || (a !== OBJ && b !== OBJ && typeof a === 'object' && typeof b === 'object' && JSON.stringify(a) === JSON.stringify(b));
-const isElemPath = p => /(^|\/)(trips|places|todos|stickers)\/[\w-]+$/.test(p);
-/* "trips/T/places/P/visited/note" → "T/P": one changed thing, however many of its details moved */
-const thingKey = p => { const m = /^trips\/([\w-]+)(?:\/(?:places|todos|stickers)\/([\w-]+))?/.exec(p); return m ? m[1] + (m[2] ? '/' + m[2] : '') : p; };
-
-function flatInto(out, prefix, obj){
-  for (const k of Object.keys(obj)){
-    if (k === 'id') continue;
-    const v = obj[k], p = prefix + k;
-    if (COLL.has(k) && Array.isArray(v)){
-      out.set(p + '#', v.map(x => x.id));
-      for (const x of v){ out.set(p + '/' + x.id, OBJ); flatInto(out, p + '/' + x.id + '/', x); }
-    } else if (v && typeof v === 'object' && !Array.isArray(v)){ out.set(p, OBJ); flatInto(out, p + '/', v); }
-    else out.set(p, v);
-  }
-  return out;
-}
-function flatTrip(t){ const out = new Map(), p = 'trips/' + t.id; out.set(p, OBJ); return flatInto(out, p + '/', t); }
-/* true when ids that are in both lists come in a different order (adding or removing alone is not a move) */
-function orderMoved(a, b){
-  const inA = new Set(a), inB = new Set(b), x = a.filter(id => inB.has(id)), y = b.filter(id => inA.has(id));
-  return x.some((id, i) => id !== y[i]);
-}
-function prune(stamps, p){ const pre = p + '/'; for (const k of Object.keys(stamps)) if (k.startsWith(pre)) delete stamps[k]; }
-/* a snapshot of what was last stamped; each trip is kept as JSON and only flattened when it changes */
-function shadowOf(st){ return { order: st.trips.map(t => t.id), trips: new Map(st.trips.map(t => [t.id, { json: JSON.stringify(t), flat: null }])) }; }
-function diffFlat(before, now, stamps, tick){
-  const gone = [];
-  for (const [p, v] of now){
-    if (before.has(p)){ const o = before.get(p); if (p.endsWith('#') ? !orderMoved(o, v) : sameVal(o, v)) continue; }
-    stamps[p] = tick();
-  }
-  for (const [p, v] of before) if (!now.has(p)){ stamps[p] = tick(); if (v === OBJ && isElemPath(p)) gone.push(p); }
-  gone.forEach(p => prune(stamps, p));   // a deleted thing keeps only its delete marker
-}
-/* stamps every detail that differs from the shadow, returns the new shadow */
-function diffStamps(shadow, st, stamps, tick){
-  const next = { order: st.trips.map(t => t.id), trips: new Map() };
-  const flatOf = e => e.flat || (e.flat = flatTrip(JSON.parse(e.json)));
-  if (orderMoved(shadow.order, next.order)) stamps['trips#'] = tick();
-  for (const t of st.trips){
-    const json = JSON.stringify(t), old = shadow.trips.get(t.id), entry = { json, flat: null };
-    next.trips.set(t.id, entry);
-    if (old && old.json === json){ entry.flat = old.flat; continue; }
-    diffFlat(old ? flatOf(old) : new Map(), flatOf(entry), stamps, tick);
-  }
-  for (const id of shadow.order) if (!next.trips.has(id)){ const p = 'trips/' + id; stamps[p] = tick(); prune(stamps, p); }
-  return next;
-}
-/* newest stamp at or below every path prefix */
-function maxUnder(st){
-  const m = {};
-  for (const k in st){
-    const v = st[k]; let i = -1;
-    do { i = k.indexOf('/', i + 1); const pre = i < 0 ? k : k.slice(0, i); if (!(m[pre] >= v)) m[pre] = v; } while (i >= 0);
-  }
-  return m;
-}
-/* Merges two states. The result is the same whichever side is "a", so both phones agree. */
-function mergeStates(a, as, b, bs){
-  const ma = maxUnder(as), mb = maxUnder(bs), out = Object.assign({}, as), dead = [];
-  for (const k in bs) if (!(out[k] >= bs[k])) out[k] = bs[k];
-  const S = (st, p) => st[p] || '';
-  const key = v => v === undefined ? '' : JSON.stringify(v);
-  const isObj = v => !!v && typeof v === 'object' && !Array.isArray(v);
-  function leaf(p, x, y){
-    const sx = S(as, p), sy = S(bs, p);
-    if (sx !== sy) return sx > sy ? x : y;
-    return key(x) >= key(y) ? x : y;            // same age (data from before syncing): any fixed rule, so both sides pick alike
-  }
-  function node(p, x, y){
-    const ox = isObj(x), oy = isObj(y);
-    if (ox && oy){
-      const r = {}, id = x.id || y.id; if (id) r.id = id;
-      for (const k of new Set([...Object.keys(x), ...Object.keys(y)])){
-        if (k === 'id') continue;
-        const cp = p + '/' + k, xv = x[k], yv = y[k];
-        if (COLL.has(k) && (Array.isArray(xv) || Array.isArray(yv))) r[k] = coll(cp, Array.isArray(xv) ? xv : [], Array.isArray(yv) ? yv : []);
-        else { const v = node(cp, xv, yv); if (v !== undefined) r[k] = v; }
-      }
-      return r;
-    }
-    if (ox || oy){   // e.g. a stamp on one phone, removed on the other: anything edited after the removal keeps it
-      const eff = ox ? (ma[p] || '') : (mb[p] || ''), other = ox ? S(bs, p) : S(as, p);
-      return eff >= other ? node(p, ox ? x : {}, oy ? y : {}) : (ox ? y : x);
-    }
-    return leaf(p, x, y);
-  }
-  function coll(p, xs, ys){
-    const X = new Map(xs.map(e => [e.id, e])), Y = new Map(ys.map(e => [e.id, e])), keep = new Map();
-    for (const id of new Set([...X.keys(), ...Y.keys()])){
-      const ep = p + '/' + id, ex = X.get(id), ey = Y.get(id);
-      if (ex && ey){ keep.set(id, node(ep, ex, ey)); continue; }
-      const eff = ex ? (ma[ep] || '') : (mb[ep] || ''), tomb = ex ? S(bs, ep) : S(as, ep);
-      if (eff >= tomb) keep.set(id, node(ep, ex || {}, ey || {}));   // new, or edited after the other phone deleted it
-      else dead.push(ep);
-    }
-    const ox = S(as, p + '#'), oy = S(bs, p + '#'), ix = xs.map(e => e.id), iy = ys.map(e => e.id);
-    const xFirst = ox !== oy ? ox > oy : key(ix) >= key(iy);
-    const base = xFirst ? ix : iy, other = xFirst ? iy : ix;
-    const res = base.filter(id => keep.has(id)), placed = new Set(res);
-    let next = null;
-    for (let i = other.length - 1; i >= 0; i--){   // things only the other order knows go just before their neighbour there, so additions at the end stay at the end
-      const id = other[i]; if (!keep.has(id)) continue;
-      if (!placed.has(id)){ res.splice(next == null ? res.length : res.indexOf(next), 0, id); placed.add(id); }
-      next = id;
-    }
-    return res.map(id => keep.get(id));
-  }
-  const trips = coll('trips', a.trips || [], b.trips || []);
-  dead.forEach(p => prune(out, p));
-  return { state: { v: a.v || b.v, trips }, stamps: out };
-}
-const maxStampTime = st => { let m = 0; for (const k in st){ const t = stampTime(st[k]); if (t > m) m = t; } return m; };
-function cleanStamps(o){
-  const out = {};
-  if (o && typeof o === 'object') for (const [k, v] of Object.entries(o)) if (k.length < 300 && PATH_RE.test(k) && typeof v === 'string' && STAMP_RE.test(v)) out[k] = v;
-  return out;
-}
-/* what would change, trip by trip, going from one state to another */
-function changeSummary(from, to){
-  const A = new Map(from.trips.map(t => [t.id, t])), B = new Map(to.trips.map(t => [t.id, t])), trips = [];
-  let count = 0;
-  const diffList = (xs, ys) => {
-    const X = new Map(xs.map(e => [e.id, JSON.stringify(e)])), Y = new Map(ys.map(e => [e.id, JSON.stringify(e)]));
-    let added = 0, removed = 0, edited = 0;
-    Y.forEach((j, id) => { if (!X.has(id)) added++; else if (X.get(id) !== j) edited++; });
-    X.forEach((j, id) => { if (!Y.has(id)) removed++; });
-    const moved = !added && !removed && !edited && xs.map(e => e.id).join() !== ys.map(e => e.id).join();
-    return { added, removed, edited, moved, n: added + removed + edited + (moved ? 1 : 0) };
-  };
-  for (const t of to.trips){
-    const o = A.get(t.id);
-    if (!o){ trips.push({ id: t.id, title: t.title, color: t.color, book: !!t.concluded, kind: 'new', notes: [] }); count++; continue; }
-    if (JSON.stringify(o) === JSON.stringify(t)) continue;
-    const notes = [], p = diffList(o.places, t.places), td = diffList(o.todos, t.todos), sk = diffList(o.stickers, t.stickers);
-    let n = p.n + td.n + (sk.n ? 1 : 0);
-    const things = [p.added && plural(p.added, 'new thing'), p.edited && `${p.edited} edited`, p.removed && `${p.removed} removed`].filter(Boolean);
-    if (things.length) notes.push(things.join(', '));
-    else if (p.moved) notes.push('plan reordered');
-    if (['title', 'start', 'days', 'color'].some(k => o[k] !== t[k])){ notes.push('trip details'); n++; }
-    if (!o.concluded !== !t.concluded){ notes.push(t.concluded ? 'made into a booklet' : 'reopened'); n++; }
-    if (JSON.stringify(o.summary) !== JSON.stringify(t.summary)){ notes.push('wrap-up answers'); n++; }
-    if (td.n) notes.push('to-dos');
-    if (sk.n) notes.push('cover stickers');
-    if (!n){ notes.push('small changes'); n = 1; }
-    trips.push({ id: t.id, title: t.title, color: t.color, book: !!t.concluded, kind: 'changed', notes }); count += n;
-  }
-  for (const o of from.trips) if (!B.has(o.id)){ trips.push({ id: o.id, title: o.title, color: o.color, book: !!o.concluded, kind: 'deleted', notes: [] }); count++; }
-  return { trips, count };
-}
-/*@pure-end*/
-
-/* ---------- this phone's sync record ---------- */
-const sync = { meta: null, shadow: null };
-const newDev = () => (Math.random().toString(36).slice(2) + '0000').slice(0, 4);
-function normMeta(m){
-  m = m && typeof m === 'object' ? m : {};
-  const peers = {};
-  if (m.peers && typeof m.peers === 'object') for (const [d, p] of Object.entries(m.peers)) if (DEV_RE.test(d) && p && typeof p === 'object') peers[d] = { name: str(p.name, 30), got: typeof p.got === 'string' ? p.got.slice(0, 30) : '' };
-  const clock = Number(m.clock);
-  return {
-    dev: DEV_RE.test(m.dev) ? m.dev : newDev(),
-    name: str(m.name, 30),
-    clock: isFinite(clock) && clock > 0 ? clock : 0,
-    stamps: cleanStamps(m.stamps),
-    peers,
-    sent: m.sent && typeof m.sent === 'object' && typeof m.sent.at === 'string' && isFinite(Number(m.sent.clock)) ? { at: m.sent.at.slice(0, 30), clock: Number(m.sent.clock) } : null
-  };
-}
-function initSync(raw){ sync.meta = normMeta(raw); sync.shadow = shadowOf(state); }
-function nextStamp(){
-  const m = sync.meta, t = Math.max(Date.now(), m.clock + 1);
-  m.clock = t;
-  return t.toString(36).padStart(9, '0').slice(-9) + m.dev;
-}
-const syncOn = () => store.mode === 'local' && !!sync.meta;
-/* called before every save: records which details changed since the last call */
-function stampChanges(){
-  if (!syncOn() || !sync.shadow) return;
-  let s = null;
-  sync.shadow = diffStamps(sync.shadow, state, sync.meta.stamps, () => s || (s = nextStamp()));
-}
-function restoreSyncMeta(json){
-  if (!sync.meta || !json) return;
-  const old = normMeta(JSON.parse(json));
-  sync.meta.stamps = old.stamps; sync.meta.peers = old.peers;
-  sync.meta.clock = Math.max(sync.meta.clock, old.clock);
-  sync.shadow = shadowOf(state);
-}
-/* Changes that only concern this phone (deleting everything here, replacing everything from a file).
-   They reset the record instead of stamping deletions, so they never reach the other phone. */
-function mutateLocal(fn, label, opts = {}){
-  if (ui.readOnly){ toast(VIEW_ONLY); return false; }
-  stampChanges();
-  const snap = JSON.stringify(state), metaSnap = sync.meta ? JSON.stringify(sync.meta) : null;
-  fn();
-  if (sync.meta) sync.shadow = shadowOf(state);
-  pushHistory(label, snap, metaSnap);
-  save(); renderAll(opts); return true;
-}
-function unsentCount(){
-  const m = sync.meta; if (!syncOn()) return 0;
-  const since = m.sent ? m.sent.clock : 0, things = new Set();
-  for (const [p, st] of Object.entries(m.stamps)) if (st.slice(9) === m.dev && stampTime(st) > since) things.add(thingKey(p));
-  return things.size;
-}
-function partner(){
-  const ps = Object.values(sync.meta ? sync.meta.peers : {}).sort((a, b) => (b.got > a.got ? 1 : b.got < a.got ? -1 : 0));
-  return ps[0] || null;
-}
-const partnerName = () => { const p = partner(); return p && p.name ? p.name : ''; };
-const whoText = (fallback = 'them') => esc(partnerName() || fallback);
-function whenText(iso){ const d = new Date(iso); return isNaN(d) ? '' : dtFmt.format(d); }
-
-/* ---------- sending: a file the other person brings in ---------- */
-const fileSafe = s => s.replace(/[\\/:*?"<>|]+/g, '').replace(/\s+/g, ' ').trim();
-function canShareFile(f){ try { return !!(navigator.canShare && navigator.share && navigator.canShare({ files: [f] })); } catch (e) { return false; } }
-function openSend(){
-  if (!syncOn()) return;
-  const s = { type: 'send', ready: false };
-  openSheet(s);
-  prepareSend(s);
-}
-/* the file is made ahead of time, so tapping Share opens the share sheet straight away (Safari needs that) */
-let sendTimer = 0;
-async function prepareSend(s){
-  const token = s.token = (s.token || 0) + 1;
-  s.ready = false; updateSendButtons(s);
-  const payload = await buildExport();
-  if (ui.sheet !== s || s.token !== token) return;
-  const text = JSON.stringify(payload), d = new Date(), z = n => String(n).padStart(2, '0');
-  const who = fileSafe(sync.meta.name);
-  const base = `Travel Log changes${who ? ' from ' + who : ''} ${ymd(d)} ${z(d.getHours())}${z(d.getMinutes())}`;
-  // Chrome only shares certain file types, so a plain-text copy of the same file is the fallback
-  const tries = [new File([text], base + '.json', { type: 'application/json' }), new File([text], base + '.txt', { type: 'text/plain' })];
-  s.file = tries.find(canShareFile) || null;
-  s.text = text; s.fileName = base + '.json'; s.clock = sync.meta.clock; s.size = text.length;
-  s.ready = true;
-  if (ui.sheet === s) renderSheet(false);
-}
-function updateSendButtons(s){
-  $$('[data-sync-share], [data-sync-save]', panel).forEach(b => {
-    b.classList.toggle('busy', !s.ready); b.setAttribute('aria-disabled', String(!s.ready));
-  });
-}
-function markSent(s){
-  sync.meta.sent = { at: new Date().toISOString(), clock: s.clock || sync.meta.clock };
-  writeLocal(); renderAll({ transition: 'none' });
-}
-async function shareSync(s){
-  if (!s.ready) return;
-  if (!s.file) return saveSync(s);
-  try {
-    await navigator.share({ files: [s.file] });
-  } catch (e) {
-    if (e && e.name === 'AbortError') return;   // closed the share sheet
-    if (e && e.name === 'NotAllowedError'){ toast('Tap Share again to send the file.'); return; }
-    return saveSync(s);
-  }
-  markSent(s);
-  closeSheet();
-  toast(`Shared your changes. ${partnerName() ? partnerName() + ' brings' : 'They bring'} them in with Get their changes.`);
-}
-async function saveSync(s){
-  if (!s.ready) return;
-  const r = await saveFile(s.fileName, s.text, 'application/json');
-  if (r !== 'saved'){ toast(r === 'declined' ? 'Not saved' : r === 'busy' ? 'A download prompt is already open.' : "Couldn't save a file here."); return; }
-  markSent(s);
-  closeSheet();
-  toast('Saved the file. Send it to the other person in any chat or email.');
-}
-function sendSheet(){
-  const s = ui.sheet, m = sync.meta, n = unsentCount(), who = partnerName();
-  const c = { trips: activeTrips().length, books: booklets().length, stickers: state.trips.reduce((k, t) => k + t.stickers.length, 0) };
-  const status = m.sent
-    ? (n ? `${plural(n, 'change')} not sent yet. You last sent them ${esc(whenText(m.sent.at))}.` : `Nothing new since you last sent them, ${esc(whenText(m.sent.at))}. Sending again is fine.`)
-    : 'The file has all your trips and booklets. After this, each file you send brings the other phone up to date.';
-  const size = s.size ? ` (${s.size > 1e6 ? (s.size / 1e6).toFixed(1) + ' MB' : Math.max(1, Math.round(s.size / 1e3)) + ' KB'})` : '';
-  const shareable = s.ready ? !!s.file : !!navigator.share;
-  const busy = s.ready ? '' : ' busy', dis = s.ready ? '' : ' aria-disabled="true"';
-  return `<p class="hint" style="margin-top:0">Send it to ${who ? esc(who) : 'the person you travel with'} in Messages, WhatsApp, AirDrop or email. They bring it in from Settings with <b>Get their changes</b>.</p>
-    <label class="field group"><span>Your name</span><input id="syName" type="text" maxlength="30" value="${esc(m.name)}" placeholder="So they know it's from you" autocomplete="given-name" enterkeyhint="done"></label>
-    <div class="importsum"><div><b>${c.trips}</b><small>${c.trips === 1 ? 'trip' : 'trips'}</small></div><div><b>${c.books}</b><small>${c.books === 1 ? 'booklet' : 'booklets'}</small></div><div><b>${c.stickers}</b><small>${c.stickers === 1 ? 'sticker' : 'stickers'}</small></div></div>
-    <p class="notice" role="status">${status}</p>
-    <div class="group">${shareable
-      ? `<button type="button" class="btn primary block${busy}"${dis} data-sync-share>${ICON.share}Share the file${s.ready ? size : ''}</button>
-         <div class="row-actions center"><button type="button" class="btn small ghost${busy}"${dis} data-sync-save>${ICON.download}Save it instead</button></div>`
-      : `<button type="button" class="btn primary block${busy}"${dis} data-sync-save>${ICON.download}Save the file${s.ready ? size : ''}</button>`}</div>`;
-}
-
-/* ---------- receiving: preview, then bring the changes in ---------- */
-/* works out the merge without changing anything, so the preview shows exactly what will happen */
-function planCombine(data){
-  stampChanges();
-  const res = mergeStates(state, sync.meta ? sync.meta.stamps : {}, data.parsed, data.peer ? data.peer.stamps : {});
-  const next = normState(res.state);
-  return { res, next, mine: changeSummary(state, next), theirs: changeSummary(data.parsed, next) };
-}
-function rememberPeer(data){
-  const pr = data.peer; if (!sync.meta || !pr || !pr.dev || pr.dev === sync.meta.dev) return;
-  const old = sync.meta.peers[pr.dev];
-  sync.meta.peers[pr.dev] = { name: pr.name || (old && old.name) || '', got: new Date().toISOString() };
-}
-async function applyCombine(s){
-  for (const [id, d] of Object.entries(s.data.images)) await putImage(id, d);   // images first, so nothing points at missing pictures
-  const plan = planCombine(s.data), snap = JSON.stringify(state), metaSnap = sync.meta ? JSON.stringify(sync.meta) : null;
-  try { localStorage.setItem('travel-log-before-import', snap); } catch (e) {}
-  const changed = JSON.stringify(plan.next) !== snap;
-  state = plan.next;
-  if (sync.meta){
-    sync.meta.stamps = plan.res.stamps;
-    sync.meta.clock = Math.max(sync.meta.clock, maxStampTime(plan.res.stamps));
-    sync.shadow = shadowOf(plan.res.state);   // anything tidied up after merging is stamped as a fix made here
-    rememberPeer(s.data);
-  }
-  if (changed) pushHistory(s.purpose === 'sync' ? `bringing in ${partnerName() ? partnerName() + "'s" : 'their'} changes` : 'the import', snap, metaSnap);
-  closeBooklet(true);
-  if (s.purpose !== 'sync') ui.view = 'home';
-  save(); renderAll({ transition: s.purpose !== 'sync' ? 'back' : 'none' });
-  return { changed, mine: plan.mine, theyLack: plan.theirs.count };
-}
-function changeListHTML(sum){
-  return `<ul class="changelist">${sum.trips.slice(0, 30).map(c => {
-    const what = c.kind === 'new' ? (c.book ? 'New booklet' : 'New trip') : c.kind === 'deleted' ? 'Deleted' : c.notes.join(', ');
-    return `<li style="${cardStyle(c.color)}"><i class="tdot" aria-hidden="true"></i><span><b>${esc(c.title)}${c.book && c.kind !== 'new' ? ' booklet' : ''}</b><small>${esc(what)}</small></span></li>`;
-  }).join('')}</ul>${sum.trips.length > 30 ? `<p class="hint">and ${plural(sum.trips.length - 30, 'more trip')}</p>` : ''}`;
-}
-function fromLine(data){
-  const pr = data.peer, mine = pr && sync.meta && pr.dev === sync.meta.dev;
-  const who = mine ? 'this phone' : pr && pr.name ? esc(pr.name) : 'another phone';
-  const when = data.sent ? whenText(data.sent) : '';
-  return `<p class="from"><b>From ${who}</b>${when ? `<small>Made ${esc(when)}</small>` : ''}</p>`;
-}
-function syncPreviewHTML(s){
-  const p = s.plan, nothing = !p.mine.trips.length;
-  return `${fromLine(s.data)}
-    ${nothing ? '<p class="notice" role="status">You already have everything in this file.</p>' : `<span class="group-label">What changes here</span>${changeListHTML(p.mine)}<p class="hint">Where you both changed the same detail, the newer change is kept. You can undo this straight after.</p>`}
-    <div class="group">${nothing
-      ? `<button type="button" class="btn primary block" data-sync-ok>Done</button>`
-      : `<button type="button" class="btn primary block" data-import-go>${ICON.receive}Bring in ${plural(p.mine.count, 'change')}</button>`}</div>`;
-}
-function syncDoneHTML(s){
-  const r = s.result, who = whoText();
-  return `<div class="done-mark" aria-hidden="true">${ICON.stamp}</div>
-    <h3 class="done-title" id="syncDone" tabindex="-1">${r.changed ? 'Changes brought in' : 'All up to date'}</h3>
-    ${r.theyLack
-      ? `<p class="notice">${who === 'them' ? 'They don' : who + ' doesn'}'t have ${plural(r.theyLack, 'change')} of yours yet. Send yours back so you both see the same trips.</p>
-         <div class="group"><button type="button" class="btn primary block" data-sync-back>${ICON.share}Send yours back</button></div>
-         <div class="row-actions center"><button type="button" class="btn small ghost" data-sync-ok>Later</button></div>`
-      : `<p class="notice">You and ${who} now have the same trips.</p><div class="group"><button type="button" class="btn primary block" data-sync-ok>Done</button></div>`}`;
-}
-
-/* ---------- Android: files shared straight to the installed app arrive here ---------- */
-const INBOX = 'travel-inbox';
-async function checkInbox(){
-  if (!/[?&]shared=1(&|$)/.test(location.search)) return;
-  try { window.history.replaceState(null, '', location.pathname + location.hash); } catch (e) {}
-  let text = null, name = 'Shared file';
-  try {
-    const c = await caches.open(INBOX), u = new URL('shared-file', location.href).href, r = await c.match(u);
-    if (r){ text = await r.text(); name = decodeURIComponent(r.headers.get('x-file-name') || '') || name; await c.delete(u); }
-  } catch (e) {}
-  if (!syncOn()) return;
-  openSheet({ type: 'import', purpose: 'sync', phase: 'pick' });
-  if (text != null) readImportText(text, name);
-  else { ui.sheet.phase = 'error'; ui.sheet.error = "The shared file didn't come through. Choose it here instead."; renderSheet(false); }
-}
-
-/* ============================================================
    Travel Log — navigation, screens, booklet viewer
    ============================================================ */
 const SECTIONS = ['home', 'today', 'plan', 'journal'];
@@ -1466,32 +1067,11 @@ function withSection(sec, fn){
   else { ui.view = 'trip'; ui.tab = sec; if (!trip){ const t = entryTrip(); ui.activeId = t && t.id; trip = t; } }
   try { fn(); } finally { ui.view = keep.view; ui.tab = keep.tab; ui.activeId = keep.activeId; trip = keep.trip; }
 }
-/* ---------- postmarks: date text must stay inside the inner ring in every language ---------- */
-const postmarkMonth = d => monFmt.format(d).replace(/\.$/, '').toUpperCase();   // "Sept." → "SEPT"
-function fitPostmarks(root = document){
-  $$('.postmark', root).forEach(pm => {
-    const W = pm.offsetWidth; if (!W) return;                // not laid out yet (hidden screen); fitted when shown
-    const R = W / 2 - 6.5 - 2.5, c = pm.offsetHeight / 2;    // inner ring radius, minus a little breathing room
-    pm.querySelectorAll('b, i').forEach(t => t.style.fontSize = '');
-    // shrink each line only as much as it needs; repeat because a smaller line moves the other one
-    for (let pass = 0; pass < 4; pass++){
-      let changed = false;
-      pm.querySelectorAll('b, i').forEach(t => {
-        const dy = Math.max(Math.abs(t.offsetTop - c), Math.abs(t.offsetTop + t.offsetHeight - c));
-        const k = 2 * Math.sqrt(Math.max(0, R * R - dy * dy)) / Math.max(t.offsetWidth, 1);
-        if (k < .995){ t.style.fontSize = (parseFloat(getComputedStyle(t).fontSize) * Math.max(k, .7)) + 'px'; changed = true; }
-      });
-      if (!changed) break;
-    }
-  });
-}
-if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => fitPostmarks());
 function renderSection(sec){
   const el = $('#s-' + sec);
   el.setAttribute('style', themeStyle(sec === 'home' || !trip ? DEFAULT_COLOR : trip.color));
   if (sec === 'home') renderHome(); else if (sec === 'today') renderToday(); else if (sec === 'plan') renderPlan(); else renderJournal();
   hydrateImages(el);
-  if (sec === 'journal') fitPostmarks(el);
 }
 function openTrip(id){ const t = getTrip(id); if (!t || t.concluded) return; ui.activeId = id; rememberActive(); ui.view = 'trip'; ui.tab = 'today'; ui.day = Math.max(0, todayIndex(t)); renderAll({ transition: 'forward' }); }
 function openHome(){ ui.view = 'home'; renderAll({ transition: 'back' }); }
@@ -1541,15 +1121,6 @@ function collapseOut(el, dir, done){
 }
 
 /* ---------- header and tab bar ---------- */
-$('#tabbar').addEventListener('keydown', e => {
-  const keys = { ArrowLeft: -1, ArrowRight: 1, Home: 'first', End: 'last' };
-  if (!(e.key in keys) || e.altKey || e.ctrlKey || e.metaKey || ui.view !== 'trip') return;
-  const i = TRIP_SECTIONS.indexOf(ui.tab), k = keys[e.key];
-  const n = k === 'first' ? 0 : k === 'last' ? TRIP_SECTIONS.length - 1 : clamp(i + k, 0, TRIP_SECTIONS.length - 1);
-  e.preventDefault();
-  if (n !== i) goTab(TRIP_SECTIONS[n]);
-  const b = $(`#tabbar [data-tab="${TRIP_SECTIONS[n]}"]`); if (b) b.focus();
-});
 function renderHeader(sec){
   const home = sec === 'home';
   $('#barTrips').hidden = home;
@@ -1571,8 +1142,8 @@ function renderUndoButton(){
 function renderTabbar(sec){
   const home = sec === 'home';
   $('#app').classList.toggle('home', home);
-  $('#tabbar').classList.toggle('away', home); $('#tabbar').inert = home;
-  $$('#tabbar [data-tab]').forEach(b => { const on = !home && b.dataset.tab === sec; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; });
+  $('#tabbar').classList.toggle('away', home);
+  $$('#tabbar [data-tab]').forEach(b => { const on = !home && b.dataset.tab === sec; b.setAttribute('aria-selected', String(on)); b.tabIndex = home ? -1 : 0; });
   const ind = $('#tabInd'); ind.classList.remove('dragging');
   ind.style.transform = `translateX(${Math.max(0, TRIP_SECTIONS.indexOf(sec)) * 100}%)`;
 }
@@ -1614,7 +1185,6 @@ function pagerSetTarget(s, dir){
   if (s.to){
     withSection(s.to, () => renderSection(s.to));
     const b = $('#s-' + s.to); b.scrollTop = 0; b.hidden = false; b.classList.add('is-moving');
-    if (s.to === 'journal') fitPostmarks(b);
   }
 }
 function pagerPose(){
@@ -1725,18 +1295,10 @@ function tripStats(t){
   if (!t.places.length) return 'Nothing planned yet';
   return `${planned} planned, ${pool} in the pool${stamped ? `, ${stamped} stamped` : ''}`;
 }
-/* a gentle reminder on the trips screen once two phones are sharing, so changes don't sit unsent */
-function syncNudge(){
-  if (!syncOn() || !partner() || ui.readOnly) return '';
-  const n = unsentCount(); if (!n) return '';
-  const who = partnerName();
-  return `<div class="tour-card sync-card" role="note"><p>${n === 1 ? 'One change' : n + ' changes'} not sent${who ? ' to ' + esc(who) : ''} yet<small>Send ${n === 1 ? 'it' : 'them'} so ${who ? esc(who) + ' sees' : 'they see'} what you've changed.</small></p><button type="button" class="btn small primary" data-sheet="send">${ICON.share}Send</button></div>`;
-}
 function renderHome(){
   const el = $('#s-home'), act = activeTrips(), books = booklets();
   let html = '';
   if (!prefs.tourSeen && !prefs.tourDismissed) html += `<div class="tour-card" role="note"><p>New here?<small>A 30-second tour of how trips, the pool, stamps and booklets work.</small></p><button type="button" class="btn small primary" data-tour>Show me</button><button type="button" class="iconbtn" data-tour-dismiss aria-label="Hide the tour suggestion">${ICON.x}</button></div>`;
-  html += syncNudge();
   if (!state.trips.length){
     html += `<section class="section"><div class="empty"><h3>Where are you off to?</h3><p>Make a trip for each place you're going. Plan what to do, stamp it once you've done it, then keep the whole trip as a booklet.</p><button type="button" class="btn primary" data-sheet="newtrip">${ICON.plus}Plan a trip</button></div></section>`;
   } else {
@@ -1749,7 +1311,7 @@ function renderHome(){
       <div style="margin-top:12px"><button type="button" class="newtrip" data-sheet="newtrip">${ICON.plus}<span>New trip</span></button></div>
     </section>`;
     if (books.length) html += `<section class="section"><div class="section-head"><h2 class="section-title">Booklets</h2><span class="muted">${books.length}</span></div>
-      <div class="shelf">${books.map(t => coverHTML(t, 'button', `type="button" data-open-book="${t.id}" data-flip="b-${t.id}" aria-label="Open the ${esc(t.title)} booklet"`, 'bookcover' + (ui.newBook === t.id ? ' new' : ''))).join('')}</div>
+      <div class="shelf" role="list">${books.map(t => coverHTML(t, 'button', `type="button" role="listitem" data-open-book="${t.id}" data-flip="b-${t.id}" aria-label="Open the ${esc(t.title)} booklet"`, 'bookcover' + (ui.newBook === t.id ? ' new' : ''))).join('')}</div>
       ${books.length > 2 ? '<p class="shelf-hint">Swipe the shelf to see them all.</p>' : ''}</section>`;
   }
   el.innerHTML = html;
@@ -1765,10 +1327,11 @@ function renderToday(){
   const parts = [`<button type="button" class="hero" data-sheet="trip" aria-label="${esc(trip.title)}: ${esc(countdown(trip))}. Open trip settings">
     ${signHTML(trip)}
     <span class="hero-text"><span class="count">${esc(countdown(trip))}</span><span class="hero-sub">${esc(sub)}</span>${n ? `<span class="hero-stats">${esc(tripStats(trip))}</span>` : ''}</span>
+    <span class="hero-gear" aria-hidden="true">${ICON.gear}</span>
   </button>`];
   if (over) parts.push(`<section class="conclude-card"><p><b>Welcome back!</b>Keep this trip as a booklet with your favourites.</p><button type="button" class="btn primary small" data-sheet="conclude">${ICON.flag}Conclude</button></section>`);
   if (!n){
-    parts.push(`<section class="section"><div class="empty compact"><p><b style="color:var(--ink)">Your plan is empty.</b> Add things you'd like to do to the pool, then drag them onto days.</p><div class="row-actions" style="margin-top:14px"><button type="button" class="btn soft small" data-go="plan">Open the plan</button></div></div></section>`);
+    parts.push(`<section class="section"><div class="empty compact"><p><b style="color:var(--ink)">Your plan is empty.</b> Add things you'd like to do to the pool, then drag them onto days.</p><div class="row-actions" style="margin-top:14px"><button type="button" class="btn soft small" data-go="plan">Open the plan</button><button type="button" class="btn small" data-sheet="gmaps">${ICON.pin}Import from Google Maps</button></div></div></section>`);
   } else if (!over){
     const d = ti >= 0 ? ti : 0, list = dayOrder(d);
     parts.push(`<section class="section">
@@ -1831,6 +1394,7 @@ function renderPlan(){
     <section class="pool" id="pool" aria-label="Activity pool">
       <div class="pool-head"><h2 class="section-title">Activity pool</h2><span class="badge">${pool.length}</span>${pool.length ? '<small>Hold and drag to plan</small>' : ''}</div>
       <div class="quickadd"><label for="qaInput" class="sr-only">Add something to do</label><input id="qaInput" type="text" maxlength="120" autocomplete="off" enterkeyhint="done" placeholder="Add something to do…"><button class="round primary" type="button" data-qa-add aria-label="Add to the pool">${ICON.plus}</button></div>
+      <div class="pool-tools"><button type="button" class="btn small soft" data-sheet="gmaps">${ICON.pin}Import from Google Maps</button></div>
       ${pool.length ? `<ul class="pool-cards">${pool.map(p => poolCardHTML(p, d)).join('')}</ul>` : '<p class="pool-empty">Nothing here yet. Add places and things you might want to do, and plan them later.</p>'}
     </section>`;
   const strip = $('#daystrip', el);
@@ -1879,12 +1443,12 @@ function renderJournal(){
   html += days.map(d => {
     const items = dayOrder(d), any = items.some(p => p.visited), open = items.filter(p => !p.visited).length, dt = dayDate(d);
     return `<section class="jday" aria-label="${esc(dLong.format(dt))}">
-      <div class="jday-head"><div><h2>${esc(dLong.format(dt))}</h2><small>Day ${d + 1}</small></div><span class="postmark${any ? '' : ' empty'}" aria-hidden="true"><b>${dt.getDate()}</b><i>${esc(postmarkMonth(dt))}</i></span></div>
+      <div class="jday-head"><div><h3>${esc(dLong.format(dt))}</h3><small>Day ${d + 1}</small></div><span class="postmark${any ? '' : ' empty'}" aria-hidden="true"><b>${dt.getDate()}</b><i>${esc(monFmt.format(dt).toUpperCase())}</i></span></div>
       ${started && d < lastDay && open ? `<p class="jnudge">${plural(open, 'thing')} not stamped yet. Stamp what you did, or swipe left to tidy up.</p>` : ''}
       <ul class="jrows">${items.map(jrowHTML).join('')}</ul>
     </section>`;
   }).join('');
-  if (extra.length) html += `<section class="jday"><div class="jday-head"><div><h2>Also stamped</h2><small>Not on a day</small></div></div><ul class="jrows">${extra.map(jrowHTML).join('')}</ul></section>`;
+  if (extra.length) html += `<section class="jday"><div class="jday-head"><div><h3>Also stamped</h3><small>Not on a day</small></div></div><ul class="jrows">${extra.map(jrowHTML).join('')}</ul></section>`;
   el.innerHTML = html;
   const bar = $('#jprog', el); if (bar && bar.style.width !== bar.dataset.to + '%') requestAnimationFrame(() => requestAnimationFrame(() => { bar.style.width = bar.dataset.to + '%'; }));
 }
@@ -2438,10 +2002,10 @@ const SHEETS = {
   conclude: () => trip ? [`Conclude ${esc(trip.title)}`, summarySheet(trip, false)] : null,
   editbook: () => { const t = getTrip(ui.sheet.id); return t ? ['Edit booklet', summarySheet(t, true)] : null; },
   settings: () => ['Settings', settingsSheet()],
-  import: () => [ui.sheet.purpose === 'sync' ? 'Get their changes' : 'Import data', importSheet()],
-  send: () => syncOn() ? ['Send your changes', sendSheet()] : null,
+  import: () => ['Import data', importSheet()],
   tutorial: () => ['Quick tour', tutorialSheet(), tutorialFoot()],
   stamps: () => trip ? ['All stamps', stampsSheet()] : null,
+  gmaps: () => trip ? ['Import from Google Maps', gmapsSheet(), gmapsFoot()] : null,
   confirm: () => [esc(ui.sheet.title), confirmSheet(), confirmFoot()]
 };
 function renderSheet(fresh){
@@ -2503,7 +2067,8 @@ function tripForm(t){
       <label class="swatch custom" style="${preset ? '' : `--sw:${color};`}" title="Pick any colour"><input type="color" id="fColor" value="${color}" aria-label="Pick any colour"><span>${ICON.plus}</span></label></div>
     <div class="preview" style="${themeStyle(color)}">${signHTML(normTrip({ title: title || 'Your trip', start, days, color }))}</div>
   </div>
-  ${t ? `<div class="group"><span class="group-label">Finish the trip</span><div class="menu"><button type="button" class="menu-row" data-sheet="conclude"><span class="mi">${ICON.flag}</span><span class="grow"><b>Conclude trip…</b><small>Answer a few questions and keep it as a booklet</small></span>${ICON.chev}</button></div></div>
+  ${t ? `<div class="group"><span class="group-label">Add places</span><div class="menu"><button type="button" class="menu-row" data-sheet="gmaps"><span class="mi">${ICON.pin}</span><span class="grow"><b>Import from Google Maps</b><small>From a saved list export, or by pasting links</small></span>${ICON.chev}</button></div></div>
+  <div class="group"><span class="group-label">Finish the trip</span><div class="menu"><button type="button" class="menu-row" data-sheet="conclude"><span class="mi">${ICON.flag}</span><span class="grow"><b>Conclude trip…</b><small>Answer a few questions and keep it as a booklet</small></span>${ICON.chev}</button></div></div>
   <div class="danger-zone"><p>Deleting removes this trip and everything in it.</p><button type="button" class="btn small danger" data-trip-delete>${ICON.trash}Delete this trip…</button></div>` : ''}`;
 }
 const tripFoot = existing => `<button type="button" class="btn primary" ${existing ? 'data-trip-save' : 'data-trip-create'}>${existing ? 'Save changes' : 'Create trip'}</button>`;
@@ -2527,48 +2092,30 @@ function summarySheet(t, isBook){
         ? `<div class="confirm-box" role="alertdialog" aria-labelledby="cfTitle"><b id="cfTitle">Turn ${esc(t.title)} into a booklet?</b><p>It moves from your trips to your booklets. Your answers and stamps are kept, and you can reopen the trip at any time.</p><div class="row-actions"><button type="button" class="btn" data-conclude-cancel>Not yet</button><button type="button" class="btn primary" data-conclude-yes>${ICON.flag}Conclude trip</button></div></div>`
         : `<div class="group"><button type="button" class="btn primary block" data-conclude>${ICON.flag}Make the booklet…</button></div>`}`;
 }
-function togetherGroup(){
-  if (!syncOn()) return '';
-  const m = sync.meta, n = unsentCount(), pr = partner(), who = partnerName();
-  const sendNote = m.sent ? (n ? `${plural(n, 'change')} not sent yet` : `Last sent ${whenText(m.sent.at)}`) : 'Share a file with the person you travel with';
-  const getNote = pr && pr.got ? `Last from ${who || 'them'}, ${whenText(pr.got)}` : 'Open the file they sent you';
-  return `<span class="group-label">Travel together</span>
-    <div class="menu">
-      <button type="button" class="menu-row" data-sheet="send"><span class="mi">${ICON.share}</span><span class="grow"><b>Send your changes</b><small>${esc(sendNote)}</small></span>${n && m.sent ? `<span class="badge" aria-label="${plural(n, 'change')} not sent">${n}</span>` : ''}${ICON.chev}</button>
-      <button type="button" class="menu-row" data-sheet="receive"><span class="mi">${ICON.receive}</span><span class="grow"><b>Get their changes</b><small>${esc(getNote)}</small></span>${ICON.chev}</button>
-    </div>
-    ${pr || m.sent ? '' : '<p class="notice">No account needed. You send each other a file in any chat, and each of you brings in the other\'s. Both phones then show the same trips, stamps and booklets.</p>'}`;
-}
 function settingsSheet(){
   const last = store.lastSaved ? tFmt.format(store.lastSaved) : null;
-  const tg = togetherGroup();
-  return `${tg}<span class="group-label${tg ? ' spaced' : ''}">Your data</span>
+  return `<span class="group-label">Your data</span>
     <div class="menu">
-      <button type="button" class="menu-row" data-export><span class="mi">${ICON.download}</span><span class="grow"><b>Export a backup</b><small>Save a file with all trips, booklets and stickers</small></span>${ICON.chev}</button>
-      <button type="button" class="menu-row" data-sheet="import"><span class="mi">${ICON.upload}</span><span class="grow"><b>Import a backup</b><small>Load a file exported from this app</small></span>${ICON.chev}</button>
+      <button type="button" class="menu-row" data-export><span class="mi">${ICON.download}</span><span class="grow"><b>Export</b><small>Save a file with all trips, booklets and stickers</small></span>${ICON.chev}</button>
+      <button type="button" class="menu-row" data-sheet="import"><span class="mi">${ICON.upload}</span><span class="grow"><b>Import</b><small>Load a file exported from this app</small></span>${ICON.chev}</button>
     </div>
     <p class="notice">${store.mode === 'db' ? 'Your trips are saved to your account.' : `Your trips are saved in this browser on this device${last ? `, last at ${esc(last)}` : ''}.`} Export now and then to keep a copy, or to move to another phone.</p>
     <div class="group"><span class="group-label">Help</span><div class="menu"><button type="button" class="menu-row" data-tour><span class="mi">${ICON.help}</span><span class="grow"><b>Show the quick tour</b><small>How trips, the pool, stamps and booklets work</small></span>${ICON.chev}</button></div></div>
     <div class="group"><span class="group-label" id="motionLabel">Animations</span><div class="seg" style="--n:2" role="group" aria-labelledby="motionLabel"><button type="button" data-motion="system" aria-pressed="${prefs.motion !== 'reduce'}">Follow device</button><button type="button" data-motion="reduce" aria-pressed="${prefs.motion === 'reduce'}">Reduce motion</button></div></div>
-    <div class="danger-zone"><p>Remove every trip and booklet from this device${partner() ? `. ${whoText('The other person')} keeps theirs` : ''}. You can undo it straight after.</p><button type="button" class="btn small danger" data-wipe>${ICON.trash}Delete all data…</button></div>`;
+    <div class="danger-zone"><p>Remove every trip and booklet from this device. You can undo it straight after.</p><button type="button" class="btn small danger" data-wipe>${ICON.trash}Delete all data…</button></div>`;
 }
-const IS_ANDROID = /Android/i.test(navigator.userAgent);
 function importSheet(){
-  const s = ui.sheet, sy = s.purpose === 'sync';
-  const pick = (label = 'Choose a file') => `<label class="btn primary block">${sy ? ICON.receive : ICON.upload}${label}<input type="file" id="importFile" accept=".json,.txt,application/json,text/plain" class="sr-only"></label>`;
+  const s = ui.sheet;
+  const pick = (label = 'Choose a file') => `<label class="btn primary block">${ICON.upload}${label}<input type="file" id="importFile" accept=".json,application/json" class="sr-only"></label>`;
   if (s.phase === 'reading') return '<p class="loading" role="status">Reading the file…</p>';
   if (s.phase === 'error') return `<p class="notice error" role="alert">${esc(s.error)}</p><p class="hint">Nothing was changed.</p><div class="group">${pick('Choose another file')}</div>`;
-  if (sy && s.phase === 'done') return syncDoneHTML(s);
-  if (sy && s.phase === 'preview') return syncPreviewHTML(s);
-  if (sy) return `<p class="hint" style="margin-top:0">Choose the file ${whoText('they')} sent you. You'll see what changes before anything does.</p><div class="group">${pick('Choose their file')}</div>
-    <p class="hint">Got it in a chat? Save the file to your phone first${IS_ANDROID ? ', or share it from the chat straight to Travel Log' : ', for example to Files'}, then choose it here.</p>`;
   if (s.phase === 'preview'){
     const c = s.data.counts;
     return `<p class="hint" style="margin-top:0">${esc(s.fileName)}</p>
       <div class="importsum"><div><b>${c.trips}</b><small>${c.trips === 1 ? 'trip' : 'trips'}</small></div><div><b>${c.books}</b><small>${c.books === 1 ? 'booklet' : 'booklets'}</small></div><div><b>${c.stickers}</b><small>${c.stickers === 1 ? 'sticker' : 'stickers'}</small></div></div>
       <span class="group-label" id="modeLabel">How to import</span>
-      <div class="seg" style="--n:2" role="group" aria-labelledby="modeLabel"><button type="button" data-imode="add" aria-pressed="${s.mode === 'add'}">Combine with mine</button><button type="button" data-imode="replace" aria-pressed="${s.mode === 'replace'}">Replace everything</button></div>
-      <p class="hint">${s.mode === 'add' ? 'Your trips stay. New ones are added, and trips that are in both are combined, keeping the newer version of each detail.' : `Your current ${plural(state.trips.length, 'trip')} will be replaced. You can undo it straight after.`}</p>
+      <div class="seg" style="--n:2" role="group" aria-labelledby="modeLabel"><button type="button" data-imode="add" aria-pressed="${s.mode === 'add'}">Add to my trips</button><button type="button" data-imode="replace" aria-pressed="${s.mode === 'replace'}">Replace everything</button></div>
+      <p class="hint">${s.mode === 'add' ? 'Your current trips stay. The imported ones are added next to them.' : `Your current ${plural(state.trips.length, 'trip')} will be replaced. You can undo it straight after.`}</p>
       ${s.confirming
         ? `<div class="confirm-box danger" role="alertdialog" aria-labelledby="riTitle"><b id="riTitle">Replace everything?</b><p>All trips and booklets on this device are replaced by the file's ${plural(c.trips + c.books, 'trip')}.</p><div class="row-actions"><button type="button" class="btn" data-import-cancel>Cancel</button><button type="button" class="btn danger-solid" data-import-go>Replace</button></div></div>`
         : `<div class="group"><button type="button" class="btn primary block" data-import-go>${s.mode === 'add' ? 'Import' : 'Replace everything…'}</button></div>`}`;
@@ -2580,7 +2127,6 @@ const TOUR = [
   ['The pool', 'Collect anything you might want to do in the pool. Press and hold a card, then drag it onto a day and a time.', `<div class="art-row"><span class="art-card"><i class="kdot" style="--kc:#d4637f"></i>Market lunch</span><span class="art-arrow">→</span><span class="daychip" style="box-shadow:var(--shadow-md)"><span class="dw">Sat</span><span class="dn">6</span></span></div>`],
   ['Stamps', 'In the journal, tap the stamp once you have done something. Swipe a row left to send it back to the pool or delete it.', `<div class="art-row"><span class="stampbtn" aria-hidden="true"><span class="ring" style="border:2.5px solid var(--stamp);background:var(--stamp-soft);color:var(--stamp);transform:rotate(-12deg)">${ICON.stamp}</span></span><span class="art-card">Sunset viewpoint</span></div>`],
   ['Booklets', 'When you are back, conclude the trip in its settings. It becomes a booklet with your favourites, and you can decorate its cover with photos.', `<div class="cover" style="${cardStyle('#6b4fa0')};width:96px"><span class="cover-text"><span class="bc-kicker">Booklet</span><span class="bc-title" style="font-size:16px">Kyoto</span></span><span class="bc-sub">Apr</span></div>`],
-  ['Travel together', 'Planning with someone? In Settings, send your changes as a file in any chat. They bring it in and send theirs back, and both phones show the same trips.', `<div class="art-row"><span class="art-card">${ICON.share.replace('<svg', '<svg width="18" height="18" style="fill:none;stroke:currentColor;stroke-width:2.2"')}You</span><span class="art-arrow">⇄</span><span class="art-card">Them</span></div>`],
   ['Swipe around', 'Swipe left and right to move between Trips, Today, Plan and Journal. Every change can be undone with the arrow at the top.', `<div class="art-row"><span class="art-arrow">←</span><span class="art-card">Today</span><span class="art-card">Plan</span><span class="art-arrow">→</span></div>`]
 ];
 function tutorialSheet(){
@@ -2609,6 +2155,191 @@ function confirmSheet(){ const s = ui.sheet; return `<p style="margin:0;font-siz
 function confirmFoot(){ const s = ui.sheet; return `<button type="button" class="btn" data-confirm-no>Cancel</button><button type="button" class="btn ${s.danger ? 'danger-solid' : 'primary'}" data-confirm-yes>${esc(s.confirmLabel)}</button>`; }
 function askConfirm(opts){ openSheet({ type: 'confirm', ...opts }); }
 
+/* ---------- import places from Google Maps ----------
+   Google gives no direct access to saved lists, so places come from a Takeout export
+   (CSV per list, Saved Places JSON, My Maps KML) or from pasted links and names. */
+const MAPS_URL = /^https?:\/\/(?:[\w-]+\.)*(?:google\.[a-z.]{2,8}\/maps|maps\.google\.[a-z.]{2,8}|maps\.app\.goo\.gl|goo\.gl\/maps)\S*/i;
+const COORDS = /^-?\d+(?:\.\d+)?,\s*-?\d+(?:\.\d+)?$/;
+function parseCSV(text){
+  text = text.replace(/^\uFEFF/, '');
+  const rows = []; let row = [], f = '', q = false;
+  for (let i = 0; i < text.length; i++){
+    const c = text[i];
+    if (q){ if (c === '"'){ if (text[i + 1] === '"'){ f += '"'; i++; } else q = false; } else f += c; }
+    else if (c === '"') q = true;
+    else if (c === ','){ row.push(f); f = ''; }
+    else if (c === '\n' || c === '\r'){ if (c === '\r' && text[i + 1] === '\n') i++; row.push(f); rows.push(row); row = []; f = ''; }
+    else f += c;
+  }
+  if (f || row.length){ row.push(f); rows.push(row); }
+  return rows;
+}
+function nameFromMapsUrl(u){
+  try {
+    const url = new URL(u);
+    const dec = v => decodeURIComponent(v.replace(/\+/g, ' ')).trim();
+    const place = /\/maps\/place\/([^/@?]+)/.exec(url.pathname); if (place) return dec(place[1]);
+    const q = url.searchParams.get('q') || url.searchParams.get('query');
+    if (q) return COORDS.test(q.trim()) ? `Dropped pin (${q.trim()})` : q.trim();
+    const search = /\/maps\/search\/([^/@?]+)/.exec(url.pathname);
+    if (search){ const v = dec(search[1]); return COORDS.test(v) ? `Dropped pin (${v})` : v; }
+  } catch (e) {}
+  return '';
+}
+function gItem(name, url, note, list){
+  name = str(String(name || '').replace(/\s+/g, ' '), 120); if (!name) return null;
+  url = String(url || '').trim();
+  return { name, url: MAPS_URL.test(url) ? url.slice(0, 500) : '', note: str(note, 600), list: str(list, 60) };
+}
+function gFromCSV(text, list){
+  const rows = parseCSV(text).filter(r => r.some(c => c.trim()));
+  if (!rows.length) return [];
+  const head = rows[0].map(h => h.trim().toLowerCase());
+  const col = names => head.findIndex(h => names.includes(h));
+  let ti = col(['title', 'name', 'place']), ui = col(['url', 'link', 'google maps url', 'maps url']), ni = col(['note', 'notes']), ci = col(['comment', 'comments', 'description']);
+  let body = rows.slice(1);
+  if (ti < 0 && ui < 0){ ti = 0; ni = 1; ui = 2; body = rows; }   // no header row: assume Title, Note, URL
+  return body.map(r => {
+    // an unquoted dropped-pin link ("…/maps/search/48.86,2.33") gets split at its comma: join it back
+    if (ui >= 0 && /\/maps\/search\/-?\d+(?:\.\d+)?$/.test((r[ui] || '').trim()) && /^\s*-?\d+(?:\.\d+)?/.test(r[ui + 1] || '')){
+      const m = /^\s*(-?\d+(?:\.\d+)?)(.*)$/.exec(r[ui + 1]);
+      r = r.slice(); r[ui] = r[ui].trim() + ',' + m[1]; r[ui + 1] = m[2]; if (!r[ui + 1].trim()) r.splice(ui + 1, 1);
+    }
+    const url = ui >= 0 ? (r[ui] || '').trim() : '';
+    const name = (ti >= 0 ? (r[ti] || '').trim() : '') || nameFromMapsUrl(url);
+    const note = [ni >= 0 ? r[ni] : '', ci >= 0 ? r[ci] : ''].map(x => (x || '').trim()).filter(Boolean).join('\n');
+    return gItem(name, url, note, list);
+  }).filter(Boolean);
+}
+function gFromJSON(o, list){
+  const feats = Array.isArray(o && o.features) ? o.features : Array.isArray(o) ? o : null;
+  if (!feats) throw new Error('not-places');
+  return feats.map(f => {
+    const p = (f && (f.properties || f)) || {}, loc = p.Location || p.location || {};
+    const url = p['Google Maps URL'] || p.google_maps_url || p.url || '';
+    const addr = loc.Address || loc.address || p.address || '';
+    const name = p.Title || p.title || p.name || p.Name || loc['Business Name'] || loc.name || nameFromMapsUrl(url) || addr;
+    const note = [p.Comment || p.comment || p.description || '', addr && addr !== name ? addr : ''].filter(Boolean).join('\n');
+    return gItem(name, url, note, list);
+  }).filter(Boolean);
+}
+function gFromKML(text, list){
+  const doc = new DOMParser().parseFromString(text, 'application/xml');
+  if (doc.getElementsByTagName('parsererror').length) throw new Error('bad-kml');
+  return [...doc.getElementsByTagName('Placemark')].map(pm => {
+    const get = t => { const e = pm.getElementsByTagName(t)[0]; return e ? e.textContent.trim() : ''; };
+    const desc = get('description').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    const url = (desc.match(MAPS_URL) || [''])[0];
+    return gItem(get('name'), url, desc.replace(MAPS_URL, '').trim(), list);
+  }).filter(Boolean);
+}
+/* pasted text: Google Maps links, names (one per line), or what the Maps app's Share button produces */
+function gFromPaste(text){
+  const out = []; let unnamed = 0;
+  String(text || '').split(/\r?\n/).map(l => l.trim()).filter(Boolean).forEach(line => {
+    const m = line.match(/https?:\/\/\S+/);
+    if (m){
+      const url = m[0].replace(/[),.;'"]+$/, ''), before = line.slice(0, m.index).replace(/[-:–|]\s*$/, '').trim();
+      if (!MAPS_URL.test(url)){ if (before) out.push(gItem(before, '', '', '')); return; }
+      const name = before || nameFromMapsUrl(url);
+      if (name){ out.push(gItem(name, url, '', '')); return; }
+      const prev = out[out.length - 1];
+      if (prev && !prev.url) prev.url = url.slice(0, 500);   // "Name" on one line, its short link on the next
+      else unnamed++;
+      return;
+    }
+    const name = line.replace(/^(?:[-*•·]|\d+[.)])\s+/, '').trim();
+    if (name.length < 2 || /^[\d.,()\s★☆+\-·]*$/.test(name)) return;   // ratings, counts and other noise
+    out.push(gItem(name, '', '', ''));
+  });
+  return { items: out.filter(Boolean), unnamed };
+}
+function gPreview(found){
+  const have = new Set(trip.places.map(p => clean(p.name))), seen = new Set(), list = [];
+  for (const it of found){
+    const k = clean(it.name); if (!k || seen.has(k)) continue; seen.add(k);
+    list.push({ ...it, id: uid('g'), dup: have.has(k), on: !have.has(k), kind: guessKind(it.name + ' ' + it.note) });
+  }
+  return list;
+}
+async function gReadFiles(files){
+  const s = ui.sheet; if (!s || s.type !== 'gmaps') return;
+  s.phase = 'reading'; renderSheet(false);
+  const found = [], failed = [];
+  for (const f of files){
+    const list = f.name.replace(/\.[^.]+$/, ''), ext = (f.name.split('.').pop() || '').toLowerCase();
+    try {
+      if (f.size > 15_000_000) throw new Error('big');
+      const text = await f.text();
+      let got;
+      if (ext === 'kml' || /^\s*<\?xml|<kml/i.test(text.slice(0, 200))) got = gFromKML(text, list);
+      else if (ext === 'json' || ext === 'geojson' || /^\s*[{[]/.test(text)) got = gFromJSON(JSON.parse(text), list);
+      else got = gFromCSV(text, list);
+      if (!got.length) throw new Error('none');
+      found.push(...got);
+    } catch (e) { failed.push(f.name); }
+  }
+  if (ui.sheet !== s) return;
+  if (!found.length){ s.phase = 'error'; s.error = files.length > 1 ? 'No places were found in those files.' : `No places were found in ${files[0].name}.`; renderSheet(false); return; }
+  s.items = gPreview(found); s.failed = failed; s.unnamed = 0; s.source = files.length === 1 ? files[0].name : plural(files.length, 'file'); s.phase = 'preview';
+  renderSheet(true);
+}
+function gReadPaste(){
+  const s = ui.sheet, ta = $('#gPaste'); if (!s || !ta) return;
+  s.pasted = ta.value;
+  const { items, unnamed } = gFromPaste(ta.value);
+  if (!items.length){ s.pasteError = unnamed ? "Short share links (maps.app.goo.gl) can't be read on their own. Paste the place name too, or the full link from your browser's address bar." : 'Nothing that looks like a place was found. Paste one link or place name per line.'; renderSheet(false); return; }
+  s.items = gPreview(items); s.failed = []; s.unnamed = unnamed; s.source = 'pasted text'; s.phase = 'preview'; s.pasteError = '';
+  renderSheet(true);
+}
+function gmapsSheet(){
+  const s = ui.sheet;
+  if (s.phase === 'reading') return '<p class="loading" role="status">Reading your places…</p>';
+  if (s.phase === 'preview'){
+    const on = s.items.filter(i => i.on).length, dups = s.items.filter(i => i.dup).length;
+    const targets = dayChoices().map(([k, l]) => `<button type="button" class="chip" data-gtarget="${k}" aria-pressed="${(s.target == null ? 'pool' : s.target) === (k === 'pool' ? 'pool' : k)}">${esc(l)}</button>`).join('');
+    return `<p class="hint" style="margin-top:0">Found ${plural(s.items.length, 'place')} in ${esc(s.source)}${dups ? `. ${dups === 1 ? 'One is' : dups + ' are'} already in this trip and left unticked` : ''}.</p>
+      ${s.failed && s.failed.length ? `<p class="notice error" role="alert">Couldn't read ${esc(s.failed.join(', '))}.</p>` : ''}
+      ${s.unnamed ? `<p class="notice">${plural(s.unnamed, 'short share link')} had no place name and ${s.unnamed === 1 ? 'was' : 'were'} skipped.</p>` : ''}
+      <div class="row-actions" style="margin-top:12px"><button type="button" class="btn small soft" data-gall="1">Select all</button><button type="button" class="btn small" data-gall="0">Select none</button></div>
+      <ul class="glist">${s.items.map(it => `<li><button type="button" class="gpick" role="checkbox" aria-checked="${it.on}" data-gtoggle="${it.id}"><span class="gbox" aria-hidden="true">${ICON.check}</span><span class="gtext"><b>${esc(it.name)}</b><small><i class="kdot" style="--kc:${KIND_COLOR[it.kind]}" aria-hidden="true"></i>${esc(KIND[it.kind])}${it.list ? ', ' + esc(it.list) : ''}${it.dup ? ', already in this trip' : ''}</small></span></button></li>`).join('')}</ul>
+      <div class="group"><span class="group-label">Add ${on === 1 ? 'it' : 'them'} to</span><div class="hscroll">${targets}</div></div>`;
+  }
+  const err = s.phase === 'error' ? `<p class="notice error" role="alert">${esc(s.error)}</p>` : '';
+  return `${err}<p class="hint" style="margin-top:0">Google doesn't let other apps open your lists directly, so bring places over with an export file, or by pasting.</p>
+    <div class="box"><span class="group-label">From a Google export (best for whole lists)</span>
+      <ol class="steps"><li>Open <a href="https://takeout.google.com/" target="_blank" rel="noopener">takeout.google.com</a> and choose <b>Deselect all</b>.</li><li>Tick <b>Saved</b> for your lists, and <b>Maps (your places)</b> for starred places.</li><li>Export, download and unzip the file.</li><li>Choose the list's file here, for example <i>Want to go.csv</i>. You can pick several.</li></ol>
+      <label class="btn primary block">${ICON.upload}Choose files<input type="file" id="gFiles" accept=".csv,.json,.geojson,.kml,text/csv,application/json,application/vnd.google-earth.kml+xml" multiple class="sr-only"></label>
+    </div>
+    <div class="box"><label class="field" for="gPaste"><span>Or paste links or place names</span></label>
+      <p class="hint" style="margin:0 0 10px">One per line. Sharing a place from the Google Maps app and pasting it here works too.</p>
+      <textarea id="gPaste" class="paste" rows="5" placeholder="Time Out Market&#10;https://maps.app.goo.gl/…&#10;Torre de Belém">${esc(s.pasted || '')}</textarea>
+      ${s.pasteError ? `<p class="notice error" role="alert">${esc(s.pasteError)}</p>` : ''}
+      <div class="group" style="margin-top:12px"><button type="button" class="btn block" data-gpaste>Find places in this text</button></div>
+    </div>`;
+}
+function gmapsFoot(){
+  const s = ui.sheet; if (s.phase !== 'preview') return '';
+  const on = s.items.filter(i => i.on).length;
+  return `<button type="button" class="btn" data-gback>Back</button><button type="button" class="btn primary" data-gimport${on ? '' : ' disabled'}>${on ? `Add ${plural(on, 'place')}` : 'Nothing selected'}</button>`;
+}
+function gmapsImport(){
+  const s = ui.sheet; if (!s || s.type !== 'gmaps' || !trip) return;
+  const picked = s.items.filter(i => i.on); if (!picked.length) return;
+  const room = MAX_ITEMS - trip.places.length;
+  if (room <= 0){ toast(`A trip can hold ${MAX_ITEMS} things`); return; }
+  const list = picked.slice(0, room), day = typeof s.target === 'number' ? s.target : null;
+  const ok = mutate(() => {
+    list.forEach(it => trip.places.push(normItem({ id: uid(), name: it.name, kind: it.kind, note: it.note, gurl: it.url || undefined, day })));
+    if (day != null) ui.day = day;
+  }, `importing ${plural(list.length, 'place')}`);
+  if (!ok) return;
+  ui.sheet = null; sheetLayer.close();
+  if (currentSection() !== 'plan') goTab('plan');
+  if (day == null) setTimeout(() => scrollPlanTo($('#pool'), true), 380);
+  toast(`Added ${plural(list.length, 'place')} to ${targetLabel(day)}${list.length < picked.length ? `. The trip is full, so ${picked.length - list.length} were left out.` : ''}`, true);
+}
+
 /* ---------- import and export ---------- */
 async function saveFile(filename, text, mime){
   let dl = null;
@@ -2628,12 +2359,9 @@ async function saveFile(filename, text, mime){
   return 'failed';
 }
 async function buildExport(){
-  stampChanges();
   const ids = new Set(state.trips.flatMap(t => t.stickers.map(s => s.img))), imgs = {};
   for (const id of ids){ const d = await getImage(id); if (d) imgs[id] = d; }
-  const out = { app: APP_ID, format: STATE_VERSION, exported: new Date().toISOString(), state: JSON.parse(JSON.stringify(state)), images: imgs };
-  if (syncOn()) out.sync = { dev: sync.meta.dev, name: sync.meta.name, stamps: sync.meta.stamps };
-  return out;
+  return { app: APP_ID, format: STATE_VERSION, exported: new Date().toISOString(), state: JSON.parse(JSON.stringify(state)), images: imgs };
 }
 async function exportData(btn){
   if (btn) btn.classList.add('busy');
@@ -2653,65 +2381,41 @@ function parseImport(text){
   if (!raw || typeof raw !== 'object' || !(Array.isArray(raw.trips) || Array.isArray(raw.places))) throw new Error("That file doesn't contain any trips from this app.");
   if (o.app === APP_ID && Number(o.format) > STATE_VERSION) throw new Error('That file comes from a newer version of the app. Reload to update, then try again.');
   const parsed = normState(raw);
-  // a file from a phone that has deleted every trip is still a valid set of changes
-  if (!parsed.trips.length && !(o.app === APP_ID && o.sync && typeof o.sync === 'object')) throw new Error("That file doesn't contain any trips.");
+  if (!parsed.trips.length) throw new Error("That file doesn't contain any trips.");
   const imgs = {};
   if (o.images && typeof o.images === 'object') for (const [id, d] of Object.entries(o.images)) if (validId(id) && isImageData(d)) imgs[id] = d;
   const counts = { trips: parsed.trips.filter(t => !t.concluded).length, books: parsed.trips.filter(t => t.concluded).length, stickers: parsed.trips.reduce((n, t) => n + t.stickers.length, 0) };
-  let peer = null;
-  if (o.app === APP_ID && o.sync && typeof o.sync === 'object') peer = { dev: DEV_RE.test(o.sync.dev) ? o.sync.dev : '', name: str(o.sync.name, 30), stamps: cleanStamps(o.sync.stamps) };
-  const sent = o.app === APP_ID && typeof o.exported === 'string' && !isNaN(new Date(o.exported)) ? o.exported : null;
-  return { parsed, images: imgs, counts, peer, sent };
+  return { parsed, images: imgs, counts };
 }
 async function readImportFile(file){
   const s = ui.sheet; if (!s || s.type !== 'import') return;
   s.phase = 'reading'; s.fileName = file.name; renderSheet(false);
   try {
     if (file.size > 40_000_000) throw new Error('That file is too large to be a Travel Log export.');
-    readImportText(await file.text(), file.name);
-  } catch (e) { s.phase = 'error'; s.error = e && e.message ? e.message : "That file couldn't be read."; if (ui.sheet === s) renderSheet(false); }
-}
-function readImportText(text, name){
-  const s = ui.sheet; if (!s || s.type !== 'import') return;
-  s.fileName = name;
-  try {
+    const text = await file.text();
     s.data = parseImport(text); s.mode = 'add'; s.phase = 'preview'; s.confirming = false;
-    if (s.purpose === 'sync') s.plan = planCombine(s.data);
   } catch (e) { s.phase = 'error'; s.error = e && e.message ? e.message : "That file couldn't be read."; }
-  if (ui.sheet === s){ renderSheet(false); focusSheetTitle(); }
+  if (ui.sheet === s) renderSheet(false);
 }
-function focusSheetTitle(id){ setTimeout(() => { const h = document.getElementById(id || 'sheetTitle'); if (h) h.focus({ preventScroll: true }); }, 30); }
 async function applyImport(){
-  const s = ui.sheet; if (!s || s.phase !== 'preview' || s.applying) return;
-  if (ui.readOnly){ toast(VIEW_ONLY); return; }
-  if (s.mode === 'replace' && s.purpose !== 'sync' && !s.confirming){ s.confirming = true; renderSheet(false); return; }
-  s.applying = true;
-  try {
-    if (s.mode === 'replace' && s.purpose !== 'sync'){
-      for (const [id, d] of Object.entries(s.data.images)) await putImage(id, d);
-      const incoming = normState(JSON.parse(JSON.stringify(s.data.parsed)));
-      try { localStorage.setItem('travel-log-before-import', JSON.stringify(state)); } catch (e) {}
-      // this phone becomes a copy of the file, history included; nothing is sent anywhere as deleted
-      mutateLocal(() => {
-        state = incoming; ui.view = 'home';
-        if (sync.meta){ sync.meta.stamps = Object.assign({}, s.data.peer ? s.data.peer.stamps : {}); sync.meta.clock = Math.max(sync.meta.clock, maxStampTime(sync.meta.stamps)); rememberPeer(s.data); }
-      }, 'replacing your data', { transition: 'back' });
-      const c = s.data.counts;
-      ui.sheet = null; sheetLayer.close();
-      toast(`Replaced with ${plural(c.trips + c.books, 'trip')}`, true);
-      return;
+  const s = ui.sheet; if (!s || s.phase !== 'preview') return;
+  if (s.mode === 'replace' && !s.confirming){ s.confirming = true; renderSheet(false); return; }
+  for (const [id, d] of Object.entries(s.data.images)) await putImage(id, d);   // images first, so nothing points at missing pictures
+  const incoming = normState(JSON.parse(JSON.stringify(s.data.parsed)));
+  try { localStorage.setItem('travel-log-before-import', JSON.stringify(state)); } catch (e) {}
+  const ok = mutate(() => {
+    if (s.mode === 'replace') state = incoming;
+    else {
+      const ids = new Set(state.trips.map(t => t.id));
+      incoming.trips.forEach(t => { if (ids.has(t.id)) t.id = uid('trip'); ids.add(t.id); state.trips.push(t); });
+      state.trips = state.trips.slice(0, MAX_TRIPS);
     }
-    const r = await applyCombine(s);
-    if (s.purpose === 'sync'){
-      if (ui.sheet !== s) return;
-      s.phase = 'done'; s.result = r; renderSheet(false); focusSheetTitle('syncDone');
-      if (r.changed) toast(`Brought in ${plural(r.mine.count, 'change')}`, true);
-      return;
-    }
-    const c = s.data.counts;
-    ui.sheet = null; sheetLayer.close();
-    toast(r.changed ? `Imported ${plural(c.trips + c.books, 'trip')}` : 'You already had everything in that file', r.changed);
-  } finally { s.applying = false; }
+    ui.view = 'home';
+  }, s.mode === 'replace' ? 'replacing your data' : 'the import', { transition: 'back' });
+  if (!ok) return;
+  const c = s.data.counts;
+  ui.sheet = null; sheetLayer.close();
+  toast(s.mode === 'replace' ? `Replaced with ${plural(c.trips + c.books, 'trip')}` : `Imported ${plural(c.trips + c.books, 'trip')}`, true);
 }
 
 /* ---------- typed inputs ---------- */
@@ -2783,8 +2487,6 @@ document.addEventListener('click', e => {
   if (d.sheet){
     if (d.sheet === 'conclude'){ if (!trip) return; return openSheet({ type: 'conclude', live: true }); }
     if (d.sheet === 'newtrip') return openSheet({ type: 'newtrip', color: DEFAULT_COLOR });
-    if (d.sheet === 'send') return openSend();
-    if (d.sheet === 'receive') return openSheet({ type: 'import', purpose: 'sync', phase: 'pick' });
     if (d.sheet === 'trip' && !trip) return;
     return openSheet({ type: d.sheet, phase: 'pick' });
   }
@@ -2821,12 +2523,12 @@ document.addEventListener('click', e => {
     $('#bookMenu').hidden = true; ui.booklet.edit = true; ui.booklet.sel = null; showPage(0, 0); renderBookChrome(); return;
   }
   if (d.bookReopen != null){ const id = ui.booklet.id, tt = getTrip(id); return askConfirm({ title: `Reopen ${tt.title}?`, body: 'It moves back to your trips so you can keep planning and stamping. The booklet comes back when you conclude it again.', confirmLabel: 'Reopen trip', onConfirm: () => reopenTrip(id) }); }
-  if (d.bookDelete != null){ const id = ui.booklet.id, tt = getTrip(id); $('#bookMenu').hidden = true; return askConfirm({ title: `Delete the ${tt.title} booklet?`, body: `The booklet and everything in it are removed.${partner() ? ` It's also removed for ${partnerName() || 'the other person'} when they get your changes.` : ''} You can undo it straight after.`, confirmLabel: 'Delete booklet', danger: true, onConfirm: () => deleteTrip(id) }); }
+  if (d.bookDelete != null){ const id = ui.booklet.id, tt = getTrip(id); $('#bookMenu').hidden = true; return askConfirm({ title: `Delete the ${tt.title} booklet?`, body: 'The booklet and everything in it are removed. You can undo it straight after.', confirmLabel: 'Delete booklet', danger: true, onConfirm: () => deleteTrip(id) }); }
   if (d.stk) return stickerAction(d.stk);
   // settings
   if (d.export != null) return exportData(t);
   if (d.motion){ prefs.motion = d.motion; savePrefs(); applyMotionPref(); renderSheet(false); return; }
-  if (d.wipe != null) return askConfirm({ title: 'Delete all data?', body: `All ${plural(state.trips.length, 'trip')} and booklets on this device are removed. Export first if you want a copy.`, confirmLabel: 'Delete everything', danger: true, onConfirm: () => { if (mutateLocal(() => { state.trips = []; ui.view = 'home'; if (sync.meta) sync.meta.stamps = {}; }, 'deleting all data', { transition: 'back' })) toast('All data deleted', true); } });
+  if (d.wipe != null) return askConfirm({ title: 'Delete all data?', body: `All ${plural(state.trips.length, 'trip')} and booklets on this device are removed. Export first if you want a copy.`, confirmLabel: 'Delete everything', danger: true, onConfirm: () => { if (mutate(() => { state.trips = []; ui.view = 'home'; }, 'deleting all data', { transition: 'back' })) toast('All data deleted', true); } });
   if (!s) return;
   if (s.type === 'confirm'){
     if (d.confirmYes != null){ const fn = s.onConfirm; ui.sheet = null; sheetLayer.close(); if (fn) fn(); return; }
@@ -2845,7 +2547,7 @@ document.addEventListener('click', e => {
     if (d.swatch){ keepTripForm(); s.previewColor = d.swatch; if (s.type === 'newtrip') s.color = d.swatch; else applyTheme(d.swatch); renderSheet(false); return; }
     if (d.tripCreate != null){ const f = readTripForm(); if (!f) return; ui.sheet = null; sheetLayer.close(); return createTrip(f); }
     if (d.tripSave != null) return saveTripSettings();
-    if (d.tripDelete != null){ const id = trip.id, tt = trip.title; return askConfirm({ title: `Delete ${tt}?`, body: `The trip, its plan, stamps and to-dos are removed.${partner() ? ` It's also removed for ${partnerName() || 'the other person'} when they get your changes.` : ''} You can undo it straight after.`, confirmLabel: 'Delete trip', danger: true, onConfirm: () => deleteTrip(id) }); }
+    if (d.tripDelete != null){ const id = trip.id, tt = trip.title; return askConfirm({ title: `Delete ${tt}?`, body: 'The trip, its plan, stamps and to-dos are removed. You can undo it straight after.', confirmLabel: 'Delete trip', danger: true, onConfirm: () => deleteTrip(id) }); }
   }
   if (s.type === 'conclude' || s.type === 'editbook'){
     const tt = summaryTarget(); if (!tt) return;
@@ -2856,14 +2558,6 @@ document.addEventListener('click', e => {
     if (d.concludeCancel != null){ s.confirming = false; renderSheet(false); return; }
     if (d.concludeYes != null){ clearTimeout(summaryTimer); finishSheetEdits(s); ui.sheet = null; sheetLayer.close(); return concludeTrip(tt); }
   }
-  if (s.type === 'send'){
-    if (d.syncShare != null) return shareSync(s);
-    if (d.syncSave != null) return saveSync(s);
-  }
-  if (s.type === 'import' && s.purpose === 'sync'){
-    if (d.syncOk != null) return closeSheet();
-    if (d.syncBack != null){ ui.sheet = null; return openSend(); }
-  }
   if (s.type === 'import'){
     if (d.imode){ s.mode = d.imode; s.confirming = false; renderSheet(false); return; }
     if (d.importGo != null) return applyImport();
@@ -2872,6 +2566,14 @@ document.addEventListener('click', e => {
   if (s.type === 'tutorial'){
     if (d.tourStep != null){ s.step = clamp(+d.tourStep, 0, TOUR.length - 1); renderSheet(false); if (motionOK()) $('.tour').animate([{ opacity: 0, transform: 'translateX(14px)' }, { opacity: 1, transform: 'none' }], { duration: 240, easing: 'cubic-bezier(.22,1,.36,1)' }); return; }
     if (d.tourDone != null){ prefs.tourSeen = true; savePrefs(); closeSheet(); renderAll({ transition: 'none' }); return; }
+  }
+  if (s.type === 'gmaps'){
+    if (d.gpaste != null) return gReadPaste();
+    if (d.gtoggle){ const it = s.items.find(x => x.id === d.gtoggle); if (it){ it.on = !it.on; renderSheet(false); } return; }
+    if (d.gall != null){ s.items.forEach(it => { it.on = d.gall === '1'; }); renderSheet(false); return; }
+    if (d.gtarget != null){ s.target = d.gtarget === 'pool' ? null : +d.gtarget; renderSheet(false); return; }
+    if (d.gback != null){ s.phase = 'start'; s.items = null; renderSheet(true); return; }
+    if (d.gimport != null) return gmapsImport();
   }
   if (s.type === 'stamps'){
     if (d.sfilter){ s.filter = d.sfilter; renderSheet(false); return; }
@@ -2914,12 +2616,6 @@ sheetLayer.addEventListener('focusin', e => { const f = e.target.dataset && e.ta
 sheetLayer.addEventListener('focusout', e => { const f = e.target.dataset && e.target.dataset.pf; if (['name', 'note', 'visited.note'].includes(f)) commitEditSnap(); });
 sheetLayer.addEventListener('input', e => {
   const t = e.target, s = ui.sheet; if (!s) return;
-  if (t.id === 'syName' && s.type === 'send'){
-    sync.meta.name = str(t.value, 30); clearTimeout(sendTimer);
-    s.ready = false; updateSendButtons(s);
-    sendTimer = setTimeout(() => { writeLocal(); prepareSend(s); }, 300);
-    return;
-  }
   if (t.id === 'fColor' && (s.type === 'trip' || s.type === 'newtrip')){
     keepTripForm(); s.previewColor = normHex(t.value); if (s.type === 'newtrip') s.color = s.previewColor; else applyTheme(s.previewColor);
     const pv = $('.preview', panel); if (pv) pv.setAttribute('style', themeStyle(s.previewColor));
@@ -2930,6 +2626,7 @@ sheetLayer.addEventListener('input', e => {
   }
   if (t.id === 'fTitle' && (s.type === 'trip' || s.type === 'newtrip')){ s.title = t.value; const st = $('.preview .sign-title', panel); if (st) st.textContent = t.value || 'Your trip'; if (s.err && s.err.title && t.value.trim()){ s.err.title = null; t.removeAttribute('aria-invalid'); const er = t.parentElement.querySelector('.err'); if (er) er.remove(); } return; }
   if (t.dataset.sum && (s.type === 'conclude' || s.type === 'editbook')){ const tt = summaryTarget(); if (!tt) return; tt.summary[t.dataset.sum] = t.value.slice(0, t.maxLength > 0 ? t.maxLength : 600); saveSummarySoon(); return; }
+  if (t.id === 'gPaste' && s.type === 'gmaps'){ s.pasted = t.value; if (s.pasteError){ s.pasteError = ''; const n = t.parentElement.querySelector('.notice.error'); if (n) n.remove(); } return; }
   if (t.dataset.btitle != null && s.type === 'editbook'){ const tt = getTrip(s.id); if (tt){ tt.title = str(t.value, 40) || tt.title; saveSummarySoon(); } return; }
   if (s.type !== 'item') return;
   const fld = t.dataset.pf; if (!['name', 'note', 'visited.note'].includes(fld)) return;
@@ -2944,6 +2641,7 @@ sheetLayer.addEventListener('input', e => {
 sheetLayer.addEventListener('change', e => {
   const t = e.target, s = ui.sheet;
   if (t.id === 'importFile'){ const f = t.files && t.files[0]; t.value = ''; if (f) readImportFile(f); return; }
+  if (t.id === 'gFiles'){ const fs = t.files ? [...t.files] : []; t.value = ''; if (fs.length) gReadFiles(fs); return; }
   if (!s || s.type !== 'item') return;
   const p = getItem(s.id); if (!p) return;
   if (t.dataset.pf === 'visited.at' && p.visited && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(t.value)) mutate(() => { p.visited.at = t.value.slice(0, 16); }, 'changing the time');
