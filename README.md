@@ -1,10 +1,8 @@
-# travel-log
-
-# Travel Log
+# Travelogue
 
 A single-file travel planner and journal. Collect things to do, spread them across your days, stamp what you actually did, and turn each trip into a keepable booklet.
 
-**Live site:** https://YOUR-USERNAME.github.io/travel-log/
+**Live site:** https://YOUR-USERNAME.github.io/Travelogue/
 
 No build step, no backend, no account. It's one `index.html` you can open in any modern browser.
 
