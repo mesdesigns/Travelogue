@@ -138,7 +138,6 @@ img{max-width:100%}
 .empty p{margin:0 auto 16px;max-width:34ch;font-size:15px}
 .empty.compact{margin:0;padding:18px 16px;text-align:left}
 .empty.compact p{margin:0;max-width:none}
-.card-panel{margin:0 var(--edge);padding:20px;border-radius:24px;background:var(--card);box-shadow:var(--shadow-sm)}
 .kdot{flex:none;display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--kc,#a99f8e)}
 
 /* the destination sign (street-sign style label in the trip's colour) */
@@ -465,7 +464,6 @@ html.kb-open .panel{padding-bottom:0;max-height:calc(100% - 8px)}
 .picks{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 10px}
 .notice{margin:14px 0 0;padding:14px 16px;border-radius:16px;background:var(--bg);font-size:14.5px}
 .notice.error{background:var(--danger-soft);color:var(--danger);font-weight:700}
-.notice.ok{background:var(--accent-soft);color:var(--accent-ink);font-weight:700}
 .importsum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
 .importsum div{padding:14px 6px;border-radius:16px;background:var(--bg);text-align:center}
 .importsum b{display:block;font:600 24px/1.1 var(--f-head);color:var(--accent-ink)}
@@ -529,7 +527,6 @@ html.kb-open .panel{padding-bottom:0;max-height:calc(100% - 8px)}
 @media (prefers-reduced-motion: reduce){ *{transition:none!important;animation:none!important} }
 
 /* ---------- travel together ---------- */
-.group-label.spaced{margin-top:26px}
 .tour-card+.tour-card{margin-top:10px}
 .sync-card .btn svg{width:17px;height:17px}
 .menu-row .badge{flex:none;min-width:26px;height:26px;padding:0 8px;border-radius:999px;display:grid;place-items:center;background:var(--accent);color:var(--on-accent);font-weight:800;font-size:13px}
@@ -550,6 +547,7 @@ html.kb-open .panel{padding-bottom:0;max-height:calc(100% - 8px)}
 .done-title:focus{outline:none}
 .done-title:focus-visible{outline:3px solid var(--accent-ink);outline-offset:4px;border-radius:6px}
 .filetext{font:400 12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;word-break:break-all}
+.btn.wrap{white-space:normal;height:auto;min-height:46px;padding-top:10px;padding-bottom:10px}
 
 </style>
 </head>
@@ -918,10 +916,20 @@ function writeLocal(){
     return true;
   } catch (e) { return false; }
 }
+/* The action that triggered the save shows its own toast straight after this one, so the warning is
+   queued to land after it instead of being replaced by it. Throttled, because a full device fails
+   on every keystroke. */
+let saveWarnAt = 0;
+function warnSaveFailed(){
+  const now = Date.now();
+  if (now - saveWarnAt < 60000) return;
+  saveWarnAt = now;
+  setTimeout(() => toast("Storage is full, so that change won't survive a refresh. Send or back up from Settings, then delete a booklet or some photos.", false), 0);
+}
 function save(){
   if (store.mode === 'local'){
     if (writeLocal()) setStatus(savedText());
-    else { setStatus('Not saved: storage is full or blocked', 'error'); toast("Couldn't save on this device. Export your data from Settings to keep a copy."); }
+    else { setStatus('Not saved: storage is full or blocked', 'error'); warnSaveFailed(); }
     return;
   }
   if (store.mode !== 'db') return;
@@ -1328,9 +1336,8 @@ function canShareFile(f){ try { return !!(navigator.canShare && navigator.share 
 /* One sheet for both jobs: sending your changes to the other phone, and exporting a backup.
    Both build the file BEFORE you tap, because Safari only lets a share or download start
    inside the tap itself — building it first and sharing afterwards is silently refused there. */
-function openSend(purpose = 'sync'){
-  if (purpose === 'sync' && !syncOn()) return;
-  const s = { type: 'send', purpose, ready: false };
+function openSend(){
+  const s = { type: 'send', ready: false };
   openSheet(s);
   prepareSend(s);
 }
@@ -1343,9 +1350,7 @@ async function prepareSend(s){
   if (ui.sheet !== s || s.token !== token) return;
   const text = JSON.stringify(payload), d = new Date(), z = n => String(n).padStart(2, '0');
   const who = sync.meta ? fileSafe(sync.meta.name) : '';
-  const base = s.purpose === 'backup'
-    ? `Travelogue backup ${ymd(d)}`
-    : `Travelogue changes${who ? ' from ' + who : ''} ${ymd(d)} ${z(d.getHours())}${z(d.getMinutes())}`;
+  const base = `Travelogue${who ? ' from ' + who : ''} ${ymd(d)} ${z(d.getHours())}${z(d.getMinutes())}`;
   // Chrome only shares certain file types, so a plain-text copy of the same file is the fallback
   const tries = [new File([text], base + '.json', { type: 'application/json' }), new File([text], base + '.txt', { type: 'text/plain' })];
   s.file = tries.find(canShareFile) || null;
@@ -1359,7 +1364,7 @@ function updateSendButtons(s){
   });
 }
 function markSent(s){
-  if (s.purpose === 'backup' || !sync.meta) return;
+  if (!sync.meta) return;
   sync.meta.sent = { at: new Date().toISOString(), clock: s.clock || sync.meta.clock };
   writeLocal(); renderAll({ transition: 'none' });
 }
@@ -1388,9 +1393,8 @@ async function shareSync(s){
     return saveSync(s);
   }
   markSent(s);
-  if (s.purpose === 'backup'){ closeSheet(); toast(`Backed up ${plural(state.trips.length, 'trip')}`); return; }
   closeSheet();
-  toast(`Shared your changes. ${partnerName() ? partnerName() + ' brings' : 'They bring'} them in with Get their changes.`);
+  toast(partnerName() ? `Sent. ${partnerName()} opens it with Open a file.` : 'Sent. Keep it as a backup, or send it to someone to plan together.');
 }
 async function saveSync(s){
   if (!s.ready) return;
@@ -1400,40 +1404,35 @@ async function saveSync(s){
   if (r !== 'saved'){ showManualCopy(s); return; }   // nothing was saved: offer the text instead of pretending
   markSent(s);
   closeSheet();
-  toast(s.purpose === 'backup' ? `Backed up ${plural(state.trips.length, 'trip')}` : 'Saved the file. Send it to the other person in any chat or email.');
+  toast(`Saved a file with ${plural(state.trips.length, 'trip')}. Keep it as a backup, or send it on.`);
 }
 function sendSheet(){
-  const s = ui.sheet, backup = s.purpose === 'backup', m = sync.meta;
+  const s = ui.sheet, m = sync.meta, n = syncOn() ? unsentCount() : 0;
   const c = { trips: activeTrips().length, books: booklets().length, stickers: state.trips.reduce((k, t) => k + t.stickers.length, 0) };
   const counts = `<div class="importsum"><div><b>${c.trips}</b><small>${c.trips === 1 ? 'trip' : 'trips'}</small></div><div><b>${c.books}</b><small>${c.books === 1 ? 'booklet' : 'booklets'}</small></div><div><b>${c.stickers}</b><small>${c.stickers === 1 ? 'sticker' : 'stickers'}</small></div></div>`;
   if (s.phase === 'manual'){
     const big = s.size > 2_000_000;
     return `<p class="notice error" role="alert">This browser wouldn't save a file.</p>
       ${big
-        ? `<p class="hint">The text below is ${(s.size / 1e6).toFixed(1)} MB, which is too much to copy by hand. Open ${esc(location.host || 'the app')} in Safari or Chrome rather than from the home screen, and ${backup ? 'export' : 'send'} again.</p>`
-        : `<p class="hint">Copy the text below and paste it into a note, an email to yourself, or a message. ${backup ? 'To bring it back later, save it as a .json file and use Import.' : 'The other person saves it as a .json file and uses Get their changes.'}</p>
+        ? `<p class="hint">The text below is ${(s.size / 1e6).toFixed(1)} MB, which is too much to copy by hand. Open ${esc(location.host || 'the app')} in Safari or Chrome rather than from the home screen, and try again.</p>`
+        : `<p class="hint">Copy the text below and paste it into a note, an email to yourself, or a message. Saved as a .json file, it opens again with <b>Open a file</b>.</p>
       <div class="group"><button type="button" class="btn primary block" data-sync-copy>Copy the text</button></div>
       <label class="field group"><span class="sr-only">File contents</span><textarea id="fileText" class="filetext" rows="6" readonly>${esc(s.text || '')}</textarea></label>`}`;
   }
   const size = s.size ? ` (${s.size > 1e6 ? (s.size / 1e6).toFixed(1) + ' MB' : Math.max(1, Math.round(s.size / 1e3)) + ' KB'})` : '';
   const shareable = s.ready ? !!s.file : !!navigator.share;
   const busy = s.ready ? '' : ' busy', dis = s.ready ? '' : ' aria-disabled="true"';
-  const buttons = shareable
-    ? `<button type="button" class="btn primary block${busy}"${dis} data-sync-share>${ICON.share}${backup ? 'Save or share the file' : 'Share the file'}${s.ready ? size : ''}</button>
-       <div class="row-actions center"><button type="button" class="btn small ghost${busy}"${dis} data-sync-save>${ICON.download}${backup ? 'Download it instead' : 'Save it instead'}</button></div>`
-    : `<button type="button" class="btn primary block${busy}"${dis} data-sync-save>${ICON.download}${backup ? 'Save the file' : 'Save the file'}${s.ready ? size : ''}</button>`;
-  if (backup) return `<p class="hint" style="margin-top:0">One file with every trip, booklet and sticker photo. Keep it somewhere safe, or use it to move to another phone with <b>Import a backup</b>.</p>
-    ${counts}
-    <div class="group">${buttons}</div>`;
-  const n = unsentCount(), who = partnerName();
-  const status = m.sent
-    ? (n ? `${plural(n, 'change')} not sent yet. You last sent them ${esc(whenText(m.sent.at))}.` : `Nothing new since you last sent them, ${esc(whenText(m.sent.at))}. Sending again is fine.`)
-    : 'The file has all your trips and booklets. After this, each file you send brings the other phone up to date.';
-  return `<p class="hint" style="margin-top:0">Send it to ${who ? esc(who) : 'the person you travel with'} in Messages, WhatsApp, AirDrop or email. They bring it in from Settings with <b>Get their changes</b>.</p>
-    <label class="field group"><span>Your name</span><input id="syName" type="text" maxlength="30" value="${esc(m.name)}" placeholder="So they know it's from you" autocomplete="given-name" enterkeyhint="done"></label>
+  const status = syncOn() && m.sent
+    ? (n ? `${plural(n, 'change')} since your last file, ${esc(whenText(m.sent.at))}.` : `Nothing has changed since your last file, ${esc(whenText(m.sent.at))}. Sending again is fine.`)
+    : 'One file with every trip, booklet and sticker photo.';
+  return `<p class="hint" style="margin-top:0">Keep it as a backup, or send it to the person you travel with ${partnerName() ? '' : '(in Messages, WhatsApp, AirDrop or email) '}so you can plan together. ${partnerName() ? esc(partnerName()) + ' opens it' : 'They open it'} with <b>Open a file</b>.</p>
+    ${syncOn() ? `<label class="field group"><span>Your name</span><input id="syName" type="text" maxlength="30" value="${esc(m.name)}" placeholder="So they know it's from you" autocomplete="given-name" enterkeyhint="done"></label>` : ''}
     ${counts}
     <p class="notice" role="status">${status}</p>
-    <div class="group">${buttons}</div>`;
+    <div class="group">${shareable
+      ? `<button type="button" class="btn primary block${busy}"${dis} data-sync-share>${ICON.share}Send or save the file${s.ready ? size : ''}</button>
+         <div class="row-actions center"><button type="button" class="btn small ghost${busy}"${dis} data-sync-save>${ICON.download}Download it instead</button></div>`
+      : `<button type="button" class="btn primary block${busy}"${dis} data-sync-save>${ICON.download}Save the file${s.ready ? size : ''}</button>`}</div>`;
 }
 
 /* ---------- receiving: preview, then bring the changes in ---------- */
@@ -1480,12 +1479,15 @@ function fromLine(data){
   return `<p class="from"><b>From ${who}</b>${when ? `<small>Made ${esc(when)}</small>` : ''}</p>`;
 }
 function syncPreviewHTML(s){
-  const p = s.plan, nothing = !p.mine.trips.length;
+  const p = s.plan, nothing = !p.mine.trips.length, c = s.data.counts;
+  if (s.confirming) return `${fromLine(s.data)}
+    <div class="confirm-box danger" role="alertdialog" aria-labelledby="riTitle"><b id="riTitle">Replace everything?</b><p>Your ${plural(state.trips.length, 'trip')} on this device are thrown away and replaced by the file's ${plural(c.trips + c.books, 'trip')}. You can undo it straight after.</p><div class="row-actions"><button type="button" class="btn" data-import-cancel>Cancel</button><button type="button" class="btn danger-solid" data-import-go>Replace</button></div></div>`;
   return `${fromLine(s.data)}
     ${nothing ? '<p class="notice" role="status">You already have everything in this file.</p>' : `<span class="group-label">What changes here</span>${changeListHTML(p.mine)}<p class="hint">Where you both changed the same detail, the newer change is kept. You can undo this straight after.</p>`}
     <div class="group">${nothing
       ? `<button type="button" class="btn primary block" data-sync-ok>Done</button>`
-      : `<button type="button" class="btn primary block" data-import-go>${ICON.receive}Bring in ${plural(p.mine.count, 'change')}</button>`}</div>`;
+      : `<button type="button" class="btn primary block" data-import-go>${ICON.receive}Bring in ${plural(p.mine.count, 'change')}</button>`}</div>
+    ${state.trips.length ? `<div class="row-actions center"><button type="button" class="btn small ghost wrap" data-imode="replace">Replace everything instead…</button></div>` : ''}`;
 }
 function syncDoneHTML(s){
   const r = s.result, who = whoText();
@@ -2507,8 +2509,8 @@ const SHEETS = {
   conclude: () => trip ? [`Conclude ${esc(trip.title)}`, summarySheet(trip, false)] : null,
   editbook: () => { const t = getTrip(ui.sheet.id); return t ? ['Edit booklet', summarySheet(t, true)] : null; },
   settings: () => ['Settings', settingsSheet()],
-  import: () => [ui.sheet.purpose === 'sync' ? 'Get their changes' : 'Import data', importSheet()],
-  send: () => ui.sheet.purpose === 'backup' ? ['Export a backup', sendSheet()] : syncOn() ? ['Send your changes', sendSheet()] : null,
+  import: () => ['Open a file', importSheet()],
+  send: () => ['Send or back up', sendSheet()],
   tutorial: () => ['Quick tour', tutorialSheet(), tutorialFoot()],
   stamps: () => trip ? ['All stamps', stampsSheet()] : null,
   confirm: () => [esc(ui.sheet.title), confirmSheet(), confirmFoot()]
@@ -2596,53 +2598,34 @@ function summarySheet(t, isBook){
         ? `<div class="confirm-box" role="alertdialog" aria-labelledby="cfTitle"><b id="cfTitle">Turn ${esc(t.title)} into a booklet?</b><p>It moves from your trips to your booklets. Your answers and stamps are kept, and you can reopen the trip at any time.</p><div class="row-actions"><button type="button" class="btn" data-conclude-cancel>Not yet</button><button type="button" class="btn primary" data-conclude-yes>${ICON.flag}Conclude trip</button></div></div>`
         : `<div class="group"><button type="button" class="btn primary block" data-conclude>${ICON.flag}Make the booklet…</button></div>`}`;
 }
-function togetherGroup(){
-  if (!syncOn()) return '';
-  const m = sync.meta, n = unsentCount(), pr = partner(), who = partnerName();
-  const sendNote = m.sent ? (n ? `${plural(n, 'change')} not sent yet` : `Last sent ${whenText(m.sent.at)}`) : 'Share a file with the person you travel with';
-  const getNote = pr && pr.got ? `Last from ${who || 'them'}, ${whenText(pr.got)}` : 'Open the file they sent you';
-  return `<span class="group-label">Travel together</span>
-    <div class="menu">
-      <button type="button" class="menu-row" data-sheet="send"><span class="mi">${ICON.share}</span><span class="grow"><b>Send your changes</b><small>${esc(sendNote)}</small></span>${n && m.sent ? `<span class="badge" aria-label="${plural(n, 'change')} not sent">${n}</span>` : ''}${ICON.chev}</button>
-      <button type="button" class="menu-row" data-sheet="receive"><span class="mi">${ICON.receive}</span><span class="grow"><b>Get their changes</b><small>${esc(getNote)}</small></span>${ICON.chev}</button>
-    </div>
-    ${pr || m.sent ? '' : '<p class="notice">No account needed. You send each other a file in any chat, and each of you brings in the other\'s. Both phones then show the same trips, stamps and booklets.</p>'}`;
-}
+/* Sending to the other phone and exporting a backup write the same kind of file, and getting their
+   changes and importing a backup both read one. They sit together as one out / one in, each sheet
+   covering both reasons, rather than four rows that look like near-duplicates of each other. */
 function settingsSheet(){
   const last = store.lastSaved ? tFmt.format(store.lastSaved) : null;
-  const tg = togetherGroup();
-  return `${tg}<span class="group-label${tg ? ' spaced' : ''}">Your data</span>
+  const sy = syncOn(), m = sync.meta, n = sy ? unsentCount() : 0, pr = sy ? partner() : null, who = sy ? partnerName() : '';
+  const sentNote = sy && m.sent ? (n ? `${plural(n, 'change')} not sent yet` : `Last sent ${whenText(m.sent.at)}`) : null;
+  const gotNote = pr && pr.got ? `Last from ${who || 'them'}, ${whenText(pr.got)}` : null;
+  return `<span class="group-label">Trips in and out</span>
     <div class="menu">
-      <button type="button" class="menu-row" data-export><span class="mi">${ICON.download}</span><span class="grow"><b>Export a backup</b><small>Save a file with all trips, booklets and stickers</small></span>${ICON.chev}</button>
-      <button type="button" class="menu-row" data-sheet="import"><span class="mi">${ICON.upload}</span><span class="grow"><b>Import a backup</b><small>Load a file exported from this app</small></span>${ICON.chev}</button>
+      <button type="button" class="menu-row" data-sheet="send"><span class="mi">${ICON.share}</span><span class="grow"><b>Send or back up</b><small>${esc(sentNote || 'Share your trips with someone, or save a copy')}</small></span>${n && m.sent ? `<span class="badge" aria-label="${plural(n, 'change')} not sent">${n}</span>` : ''}${ICON.chev}</button>
+      <button type="button" class="menu-row" data-sheet="receive"><span class="mi">${ICON.receive}</span><span class="grow"><b>Open a file</b><small>${esc(gotNote || 'Their changes, or a backup of your own')}</small></span>${ICON.chev}</button>
     </div>
-    <p class="notice">${store.mode === 'db' ? 'Your trips are saved to your account.' : `Your trips are saved in this browser on this device${last ? `, last at ${esc(last)}` : ''}.`} Export now and then to keep a copy, or to move to another phone.</p>
+    <p class="notice">${store.mode === 'db' ? 'Your trips are saved to your account.' : `Your trips are saved in this browser on this device${last ? `, last at ${esc(last)}` : ''}.`} ${pr ? `You and ${whoText('the other person')} each keep your own copy; sending a file brings you both up to date.` : 'Send a file now and then to keep a copy, to move to another phone, or to plan with someone else.'}</p>
     <div class="group"><span class="group-label">Help</span><div class="menu"><button type="button" class="menu-row" data-tour><span class="mi">${ICON.help}</span><span class="grow"><b>Show the quick tour</b><small>How trips, the pool, stamps and booklets work</small></span>${ICON.chev}</button></div></div>
     <div class="group"><span class="group-label" id="motionLabel">Animations</span><div class="seg" style="--n:2" role="group" aria-labelledby="motionLabel"><button type="button" data-motion="system" aria-pressed="${prefs.motion !== 'reduce'}">Follow device</button><button type="button" data-motion="reduce" aria-pressed="${prefs.motion === 'reduce'}">Reduce motion</button></div></div>
     <div class="danger-zone"><p>Remove every trip and booklet from this device${partner() ? `. ${whoText('The other person')} keeps theirs` : ''}. You can undo it straight after.</p><button type="button" class="btn small danger" data-wipe>${ICON.trash}Delete all data…</button></div>`;
 }
 const IS_ANDROID = /Android/i.test(navigator.userAgent);
 function importSheet(){
-  const s = ui.sheet, sy = s.purpose === 'sync';
-  const pick = (label = 'Choose a file') => `<label class="btn primary block">${sy ? ICON.receive : ICON.upload}${label}<input type="file" id="importFile" accept=".json,.txt,application/json,text/plain" class="sr-only"></label>`;
+  const s = ui.sheet;
+  const pick = (label = 'Choose a file') => `<label class="btn primary block">${ICON.receive}${label}<input type="file" id="importFile" accept=".json,.txt,application/json,text/plain" class="sr-only"></label>`;
   if (s.phase === 'reading') return '<p class="loading" role="status">Reading the file…</p>';
   if (s.phase === 'error') return `<p class="notice error" role="alert">${esc(s.error)}</p><p class="hint">Nothing was changed.</p><div class="group">${pick('Choose another file')}</div>`;
-  if (sy && s.phase === 'done') return syncDoneHTML(s);
-  if (sy && s.phase === 'preview') return syncPreviewHTML(s);
-  if (sy) return `<p class="hint" style="margin-top:0">Choose the file ${whoText('they')} sent you. You'll see what changes before anything does.</p><div class="group">${pick('Choose their file')}</div>
+  if (s.phase === 'done') return syncDoneHTML(s);
+  if (s.phase === 'preview') return syncPreviewHTML(s);
+  return `<p class="hint" style="margin-top:0">Choose a file ${partnerName() ? esc(partnerName()) + ' sent you' : 'someone sent you'}, or one of your own backups. You'll see what changes before anything does.</p><div class="group">${pick('Choose a file')}</div>
     <p class="hint">Got it in a chat? Save the file to your phone first${IS_ANDROID ? ', or share it from the chat straight to Travelogue' : ', for example to Files'}, then choose it here.</p>`;
-  if (s.phase === 'preview'){
-    const c = s.data.counts;
-    return `<p class="hint" style="margin-top:0">${esc(s.fileName)}</p>
-      <div class="importsum"><div><b>${c.trips}</b><small>${c.trips === 1 ? 'trip' : 'trips'}</small></div><div><b>${c.books}</b><small>${c.books === 1 ? 'booklet' : 'booklets'}</small></div><div><b>${c.stickers}</b><small>${c.stickers === 1 ? 'sticker' : 'stickers'}</small></div></div>
-      <span class="group-label" id="modeLabel">How to import</span>
-      <div class="seg" style="--n:2" role="group" aria-labelledby="modeLabel"><button type="button" data-imode="add" aria-pressed="${s.mode === 'add'}">Combine with mine</button><button type="button" data-imode="replace" aria-pressed="${s.mode === 'replace'}">Replace everything</button></div>
-      <p class="hint">${s.mode === 'add' ? 'Your trips stay. New ones are added, and trips that are in both are combined, keeping the newer version of each detail.' : `Your current ${plural(state.trips.length, 'trip')} will be replaced. You can undo it straight after.`}</p>
-      ${s.confirming
-        ? `<div class="confirm-box danger" role="alertdialog" aria-labelledby="riTitle"><b id="riTitle">Replace everything?</b><p>All trips and booklets on this device are replaced by the file's ${plural(c.trips + c.books, 'trip')}.</p><div class="row-actions"><button type="button" class="btn" data-import-cancel>Cancel</button><button type="button" class="btn danger-solid" data-import-go>Replace</button></div></div>`
-        : `<div class="group"><button type="button" class="btn primary block" data-import-go>${s.mode === 'add' ? 'Import' : 'Replace everything…'}</button></div>`}`;
-  }
-  return `<p class="hint" style="margin-top:0">Choose a file you exported from Travelogue. You'll see what's in it before anything changes.</p><div class="group">${pick()}</div>`;
 }
 const TOUR = [
   ['Trips', 'Every trip gets its own colour and its own plan. Swipe right from Today, or tap Trips at the top, to see all of them.', `<div class="art-row"><span class="sign" style="${themeStyle('#0f766e')}"><span class="sign-sub">5 days</span><span class="sign-title">Lisbon</span></span><span class="sign" style="${themeStyle('#b4532a')}"><span class="sign-sub">2 weeks</span><span class="sign-title">Rome</span></span></div>`],
@@ -2750,10 +2733,10 @@ function focusSheetTitle(id){ setTimeout(() => { const h = document.getElementBy
 async function applyImport(){
   const s = ui.sheet; if (!s || s.phase !== 'preview' || s.applying) return;
   if (ui.readOnly){ toast(VIEW_ONLY); return; }
-  if (s.mode === 'replace' && s.purpose !== 'sync' && !s.confirming){ s.confirming = true; renderSheet(false); return; }
+  if (s.mode === 'replace' && !s.confirming){ s.confirming = true; renderSheet(false); return; }
   s.applying = true;
   try {
-    if (s.mode === 'replace' && s.purpose !== 'sync'){
+    if (s.mode === 'replace'){
       for (const [id, d] of Object.entries(s.data.images)) await putImage(id, d);
       const incoming = normState(JSON.parse(JSON.stringify(s.data.parsed)));
       try { localStorage.setItem('travelogue-before-import', JSON.stringify(state)); } catch (e) {}
@@ -2768,15 +2751,9 @@ async function applyImport(){
       return;
     }
     const r = await applyCombine(s);
-    if (s.purpose === 'sync'){
-      if (ui.sheet !== s) return;
-      s.phase = 'done'; s.result = r; renderSheet(false); focusSheetTitle('syncDone');
-      if (r.changed) toast(`Brought in ${plural(r.mine.count, 'change')}`, true);
-      return;
-    }
-    const c = s.data.counts;
-    ui.sheet = null; sheetLayer.close();
-    toast(r.changed ? `Imported ${plural(c.trips + c.books, 'trip')}` : 'You already had everything in that file', r.changed);
+    if (ui.sheet !== s) return;
+    s.phase = 'done'; s.result = r; renderSheet(false); focusSheetTitle('syncDone');
+    if (r.changed) toast(`Brought in ${plural(r.mine.count, 'change')}`, true);
   } finally { s.applying = false; }
 }
 
@@ -2890,7 +2867,7 @@ document.addEventListener('click', e => {
   if (d.bookDelete != null){ const id = ui.booklet.id, tt = getTrip(id); $('#bookMenu').hidden = true; return askConfirm({ title: `Delete the ${tt.title} booklet?`, body: `The booklet and everything in it are removed.${partner() ? ` It's also removed for ${partnerName() || 'the other person'} when they get your changes.` : ''} You can undo it straight after.`, confirmLabel: 'Delete booklet', danger: true, onConfirm: () => deleteTrip(id) }); }
   if (d.stk) return stickerAction(d.stk);
   // settings
-  if (d.export != null) return openSend('backup');
+  if (d.export != null) return openSend();
   if (d.motion){ prefs.motion = d.motion; savePrefs(); applyMotionPref(); renderSheet(false); return; }
   if (d.wipe != null) return askConfirm({ title: 'Delete all data?', body: `All ${plural(state.trips.length, 'trip')} and booklets on this device are removed. Export first if you want a copy.`, confirmLabel: 'Delete everything', danger: true, onConfirm: () => { if (mutateLocal(() => { state.trips = []; ui.view = 'home'; if (sync.meta) sync.meta.stamps = {}; }, 'deleting all data', { transition: 'back' })) toast('All data deleted', true); } });
   if (!s) return;
@@ -2932,7 +2909,7 @@ document.addEventListener('click', e => {
     if (d.syncBack != null){ ui.sheet = null; return openSend(); }
   }
   if (s.type === 'import'){
-    if (d.imode){ s.mode = d.imode; s.confirming = false; renderSheet(false); return; }
+    if (d.imode){ s.mode = d.imode; s.confirming = d.imode === 'replace'; renderSheet(false); return; }
     if (d.importGo != null) return applyImport();
     if (d.importCancel != null){ s.confirming = false; renderSheet(false); return; }
   }
